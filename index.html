@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BE MAKE - LINKS</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8B7355">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="BE MAKE Links">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- Otimização de Carregamento -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap">
+    
+    <style>
+        :root {
+            --pink: #F8D7DA;
+            --beige: #F5E6D3;
+            --light-beige: #FAF3E0;
+            --brown: #8B7355;
+            --dark-brown: #5D4037;
+            --card-shadow: 0 8px 25px rgba(139, 115, 85, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --pink: #2D1B2E;
+            --beige: #3A2B2F;
+            --light-beige: #4A3A3F;
+            --brown: #8B7355;
+            --dark-brown: #E8D5C4;
+            --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--pink), var(--beige));
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            color: var(--dark-brown);
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        header {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-brown);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            color: var(--brown);
+            font-style: italic;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--light-beige);
+            border: none;
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-brown);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Barra de Busca */
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--beige);
+            border-radius: 50px;
+            font-size: 1rem;
+            background: white;
+            color: var(--dark-brown);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--brown);
+            box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+        }
+
+        [data-theme="dark"] .search-input {
+            background: var(--light-beige);
+            border-color: var(--brown);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--brown);
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            border: 1px solid rgba(139, 115, 85, 0.1);
+            position: relative;
+        }
+
+        [data-theme="dark"] .card {
+            background: var(--light-beige);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(139, 115, 85, 0.25);
+        }
+
+        .card.hidden {
+            display: none;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--dark-brown);
+            font-weight: 600;
+        }
+
+        /* Indicador de Status */
+        .status-indicator {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .status-online {
+            background: #27ae60;
+            box-shadow: 0 0 10px #27ae60;
+        }
+
+        .status-offline {
+            background: #e74c3c;
+            box-shadow: 0 0 10px #e74c3c;
+        }
+
+        .status-maintenance {
+            background: #f39c12;
+            box-shadow: 0 0 10px #f39c12;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .card-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--brown), var(--dark-brown));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--dark-brown), var(--brown));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 115, 85, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: var(--light-beige);
+            color: var(--dark-brown);
+        }
+        
+        .btn-secondary:hover {
+            background-color: white;
+            box-shadow: 0 3px 10px rgba(139, 115, 85, 0.2);
+        }
+
+        [data-theme="dark"] .btn-secondary:hover {
+            background-color: var(--beige);
+        }
+        
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            margin-top: 1rem;
+        }
+        
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #128C7E, #25D366);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Botão de Notificações */
+        .notifications-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+            transition: var(--transition);
+            z-index: 1000;
+            border: none;
+        }
+
+        .notifications-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Botão Flutuante ADM */
+        .admin-float-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--dark-brown), var(--brown));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.4);
+            transition: var(--transition);
+            z-index: 1000;
+            border: none;
+        }
+
+        .admin-float-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(139, 115, 85, 0.6);
+        }
+
+        /* Modal Login ADM */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .admin-modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        [data-theme="dark"] .admin-modal-content {
+            background: var(--light-beige);
+        }
+
+        .close-admin-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--brown);
+            transition: var(--transition);
+        }
+
+        .close-admin-modal:hover {
+            color: var(--dark-brown);
+        }
+
+        .admin-modal h3 {
+            color: var(--dark-brown);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark-brown);
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--beige);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+            color: var(--dark-brown);
+        }
+
+        [data-theme="dark"] .form-group input {
+            background: var(--beige);
+            border-color: var(--brown);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--brown);
+            box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--brown), var(--dark-brown));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, var(--dark-brown), var(--brown));
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        /* Área Administrativa */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            z-index: 2000;
+            text-align: center;
+        }
+
+        [data-theme="dark"] .admin-panel {
+            background: var(--light-beige);
+        }
+
+        .admin-panel h3 {
+            color: var(--dark-brown);
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .admin-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .admin-btn {
+            padding: 1rem;
+            background: var(--light-beige);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: var(--dark-brown);
+        }
+
+        .admin-btn:hover {
+            background: var(--beige);
+            transform: translateY(-2px);
+        }
+
+        .btn-logout {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-logout:hover {
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            transform: translateY(-2px);
+        }
+
+        /* Modal de Confirmação */
+        .confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .confirm-modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        [data-theme="dark"] .confirm-modal-content {
+            background: var(--light-beige);
+        }
+
+        .confirm-modal h3 {
+            color: var(--dark-brown);
+            margin-bottom: 1rem;
+        }
+
+        .confirm-modal p {
+            margin-bottom: 2rem;
+            color: var(--brown);
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-confirm {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-confirm-yes {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+
+        .btn-confirm-no {
+            background: var(--light-beige);
+            color: var(--dark-brown);
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        [data-theme="dark"] .modal-content {
+            background: var(--light-beige);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--beige);
+            padding-bottom: 1rem;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--dark-brown);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--brown);
+            transition: var(--transition);
+        }
+        
+        .close-btn:hover {
+            color: var(--dark-brown);
+        }
+        
+        .modal-body {
+            color: var(--dark-brown);
+            line-height: 1.6;
+            text-align: left;
+        }
+        
+        .modal-body h3 {
+            margin: 1.5rem 0 0.5rem;
+            color: var(--brown);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .modal-body p {
+            margin-bottom: 1rem;
+        }
+        
+        .modal-body ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-body li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-box {
+            background: var(--light-beige);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--brown);
+        }
+        
+        .step-number {
+            background: var(--brown);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        footer {
+            margin-top: 3rem;
+            color: var(--brown);
+            font-size: 0.9rem;
+        }
+
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 4000;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--beige);
+            border-top: 5px solid var(--brown);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .admin-float-btn, .notifications-btn {
+                bottom: 1rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .admin-float-btn {
+                left: 1rem;
+            }
+
+            .notifications-btn {
+                right: 1rem;
+            }
+
+            .admin-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .confirm-buttons {
+                flex-direction: column;
+            }
+
+            .theme-toggle {
+                position: relative;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 5000;
+        }
+
+        .toast {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-left: 4px solid #3498db;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.success {
+            border-left-color: #27ae60;
+        }
+
+        .toast.error {
+            border-left-color: #e74c3c;
+        }
+
+        .toast.warning {
+            border-left-color: #f39c12;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BE MAKE - LINKS</h1>
+            <p class="subtitle">feito por Marcus Lot</p>
+            <button class="theme-toggle" id="themeToggle">
+                <span>🌙</span>
+                <span>Modo Escuro</span>
+            </button>
+        </header>
+        
+        <main>
+            <!-- Barra de Busca -->
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="🔍 Buscar sistema...">
+            </div>
+
+            <div class="cards-container" id="cardsContainer">
+                <!-- Card do Livro Caixa -->
+                <div class="card" data-search="livro caixa financeiro dinheiro caixa vendas">
+                    <div class="status-indicator status-online" title="Sistema Online"></div>
+                    <div class="card-header">
+                        <span class="card-icon">📒</span>
+                        <h2 class="card-title">LIVRO CAIXA</h2>
+                    </div>
+                    <div class="card-buttons">
+                        <a href="https://script.google.com/macros/s/AKfycbxagRW3Mfv1GTSrllXGCHb4YpSZcOMqM55QWnAZtCWOZPig-tnCg-0dA5iGzuOf6zk2gw/exec" class="btn btn-primary" id="livro-caixa-link" target="_blank">
+                            <span>Acessar Livro Caixa</span>
+                        </a>
+                        <button class="btn btn-secondary" id="como-usar-livro">
+                            <span>Como Usar</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Card do Vale -->
+                <div class="card" data-search="vale adiantamento funcionário pagamento">
+                    <div class="status-indicator status-online" title="Sistema Online"></div>
+                    <div class="card-header">
+                        <span class="card-icon">🎫</span>
+                        <h2 class="card-title">VALE</h2>
+                    </div>
+                    <div class="card-buttons">
+                        <a href="https://script.google.com/macros/s/AKfycbyc-b0Bwb2iCUBUctM7DLhCij83paVyrA6kEikVQhf1PkCaW88VYinKE7Ge1uQkzDIG/exec" class="btn btn-primary" id="vale-link" target="_blank">
+                            <span>Acessar Vale</span>
+                        </a>
+                        <button class="btn btn-secondary" id="como-usar-vale">
+                            <span>Como Usar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card de COMPRAS -->
+                <div class="card" data-search="compras fornecedor pedido produto">
+                    <div class="status-indicator status-maintenance" title="Em Desenvolvimento"></div>
+                    <div class="card-header">
+                        <span class="card-icon">🛒</span>
+                        <h2 class="card-title">COMPRAS</h2>
+                    </div>
+                    <div class="card-buttons">
+                        <a href="#" class="btn btn-primary" id="compras-link">
+                            <span>Acessar Compras</span>
+                        </a>
+                        <button class="btn btn-secondary" id="como-usar-compras">
+                            <span>Como Usar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>BE MAKE - LINKS &copy; 2023</p>
+        </footer>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Botão de Notificações -->
+    <button class="notifications-btn" id="notificationsBtn">
+        🔔
+        <div class="notification-badge" id="notificationBadge" style="display: none;">1</div>
+    </button>
+
+    <!-- Botão Flutuante ADM -->
+    <button class="admin-float-btn" id="adminBtn">
+        👤
+    </button>
+
+    <!-- Modal Login ADM -->
+    <div class="admin-modal" id="adminLoginModal">
+        <div class="admin-modal-content">
+            <button class="close-admin-modal" id="closeAdminModal">×</button>
+            <h3>🔐 Área Administrativa</h3>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="login">Login:</label>
+                    <input type="text" id="login" placeholder="Digite seu login" required>
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" placeholder="Digite sua senha" required>
+                </div>
+                <button type="submit" class="btn-login">Entrar</button>
+                <div class="error-message" id="errorMessage">
+                    Login ou senha incorretos!
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Painel Administrativo -->
+    <div class="admin-panel" id="adminPanel">
+        <h3>⚙️ Painel Administrativo</h3>
+        <div class="admin-buttons">
+            <button class="admin-btn" id="adminLivroCaixa">
+                📒 Livro Caixa - Planilha
+            </button>
+            <button class="admin-btn" id="adminVale">
+                🎫 Vale - Planilha
+            </button>
+            <button class="admin-btn" id="adminCompras">
+                🛒 Compras - Planilha
+            </button>
+        </div>
+        <button class="btn-logout" id="logoutBtn">Sair</button>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div class="confirm-modal" id="confirmModal">
+        <div class="confirm-modal-content">
+            <h3>Confirmação</h3>
+            <p id="confirmMessage">Certeza que deseja abrir?</p>
+            <div class="confirm-buttons">
+                <button class="btn-confirm btn-confirm-yes" id="confirmYes">Sim</button>
+                <button class="btn-confirm btn-confirm-no" id="confirmNo">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para "Como usar o Livro Caixa" -->
+    <div class="modal" id="modal-livro">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📘 Como usar o Livro Caixa</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Seu caderninho digital para organizar o dinheiro das lojas Be Make! ✨</strong></p>
+                
+                <div class="step-box">
+                    <h3>🎯 O que é o Livro Caixa?</h3>
+                    <p>Uma ferramenta SIMPLES para registrar todo o movimento de dinheiro do dia. É como um "caderninho digital" que faz as contas sozinho!</p>
+                </div>
+
+                <h3>⭐ Para que serve?</h3>
+                <ul>
+                    <li>📝 <strong>Registrar entradas e saídas</strong> de dinheiro</li>
+                    <li>🧮 <strong>Calcular totais automaticamente</strong> (cartão, PIX, entregas)</li>
+                    <li>📊 <strong>Gerar relatórios em PDF</strong> profissionais</li>
+                    <li>👥 <strong>Acompanhar desempenho</strong> das vendedoras</li>
+                    <li>💾 <strong>Salvar automaticamente</strong> na nuvem</li>
+                </ul>
+
+                <h3>🚀 Como usar - Passo a Passo Simples:</h3>
+                
+                <div class="step-box">
+                    <span class="step-number">1</span>
+                    <strong>Acesse o Livro Caixa</strong>
+                    <p>Clique no botão "Acessar Livro Caixa" acima</p>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">2</span>
+                    <strong>Preencha as informações básicas</strong>
+                    <p>• Data (já vem com hoje)<br>
+                    • Loja (Norte, Centro, etc)<br>
+                    • Seu nome</p>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">3</span>
+                    <strong>Registre o dinheiro do caixa</strong>
+                    <p>• Valor inicial em dinheiro<br>
+                    • Valor final em dinheiro<br>
+                    • O sistema calcula a diferença sozinho!</p>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">4</span>
+                    <strong>Adicione as vendas</strong>
+                    <p>Preencha quanto entrou por:<br>
+                    💳 Cartão Débito | 💳 Cartão Crédito<br>
+                    📱 PIX | 🔗 Link Pagamento | 🎫 Vale Presente</p>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">5</span>
+                    <strong>Movimentações extras (opcional)</strong>
+                    <p>• 🚚 Entregas feitas<br>
+                    • 💸 Retiradas do caixa<br>
+                    • 🛍️ Compras do dia<br>
+                    • 👩‍💼 Tickets das vendedoras</p>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">6</span>
+                    <strong>Finalize o dia</strong>
+                    <p>Clique em <strong>"Enviar Livro Caixa"</strong><br>
+                    O sistema gera um PDF automático com todo resumo!</p>
+                </div>
+
+                <h3>💡 Dicas Importantes:</h3>
+                <ul>
+                    <li>✅ <strong>Preencha todo dia</strong> - Não deixe acumular</li>
+                    <li>✅ <strong>Use números com ponto</strong> - Ex: 100.50 (não use vírgula)</li>
+                    <li>✅ <strong>Revise antes de enviar</strong> - Confira se está tudo certo</li>
+                    <li>✅ <strong>Salve o PDF</strong> - É seu comprovante do dia</li>
+                </ul>
+
+                <div class="step-box" style="background: #e8f5e8; border-left-color: #4CAF50;">
+                    <h3>🎉 Pronto!</h3>
+                    <p>Em menos de 5 minutos você tem todo controle do caixa organizado e profissional!</p>
+                </div>
+
+                <h3>📞 Precisa de Ajuda?</h3>
+                <p>Se tiver dúvidas ou problemas:</p>
+                <a href="https://wa.me/554391208288?text=Olá! Preciso de ajuda com o Livro Caixa da Be Make" class="btn btn-whatsapp" target="_blank">
+                    <span>📱 Falar no WhatsApp</span>
+                </a>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    Email: financeiro.bemake@gmail.com<br>
+                    Criado por Marcus Lot - Be Make
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para "Como usar o Vale" -->
+    <div class="modal" id="modal-vale">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🎫 Como usar o Vale</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Sistema de controle de vales e adiantamentos</strong></p>
+                
+                <div class="step-box">
+                    <p>🚧 <em>Em breve teremos um tutorial completo aqui!</em></p>
+                    <p>Enquanto isso, se precisar de ajuda com o sistema de vales:</p>
+                </div>
+
+                <a href="https://wa.me/554391208288?text=Olá! Preciso de ajuda com o sistema de Vales da Be Make" class="btn btn-whatsapp" target="_blank">
+                    <span>📱 Falar no WhatsApp</span>
+                </a>
+                
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    Email: financeiro.bemake@gmail.com<br>
+                    Criado por Marcus Lot - Be Make
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para "Como usar o Compras" -->
+    <div class="modal" id="modal-compras">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🛒 Como usar o Compras</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Sistema de controle de compras e fornecedores</strong></p>
+                
+                <div class="step-box">
+                    <p>🚧 <em>Em breve teremos um tutorial completo aqui!</em></p>
+                    <p>Enquanto isso, se precisar de ajuda com o sistema de compras:</p>
+                </div>
+
+                <a href="https://wa.me/554391208288?text=Olá! Preciso de ajuda com o sistema de Compras da Be Make" class="btn btn-whatsapp" target="_blank">
+                    <span>📱 Falar no WhatsApp</span>
+                </a>
+                
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    Email: financeiro.bemake@gmail.com<br>
+                    Criado por Marcus Lot - Be Make
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(error) {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+
+        // Analytics (Google Analytics Simulado)
+        function trackEvent(category, action, label) {
+            console.log('Analytics:', { category, action, label });
+            // Aqui você integraria com Google Analytics ou Plausible
+        }
+
+        // Credenciais de login
+        const validUsers = {
+            'Bruno': 'Bruno1220',
+            'Evellyn': 'Evellyn1220',
+            'Marcus': 'Marcus1220'
+        };
+
+        // Sistema de Tema
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('span:first-child');
+        const themeText = themeToggle.querySelector('span:last-child');
+
+        // Carregar tema salvo
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButton(savedTheme);
+
+        // Alternar tema
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+            trackEvent('UI', 'Theme Toggle', newTheme);
+        });
+
+        function updateThemeButton(theme) {
+            if (theme === 'dark') {
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Modo Claro';
+            } else {
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Modo Escuro';
+            }
+        }
+
+        // Sistema de Busca
+        const searchInput = document.getElementById('searchInput');
+        const cards = document.querySelectorAll('.card');
+
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            
+            cards.forEach(card => {
+                const searchData = card.getAttribute('data-search').toLowerCase();
+                if (searchData.includes(searchTerm) || searchTerm === '') {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            if (searchTerm) {
+                trackEvent('Search', 'Perform Search', searchTerm);
+            }
+        });
+
+        // Sistema de Notificações
+        const notificationsBtn = document.getElementById('notificationsBtn');
+        const notificationBadge = document.getElementById('notificationBadge');
+        const toastContainer = document.getElementById('toastContainer');
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        function showNotification(title, body) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(title, {
+                    body: body,
+                    icon: '/icon.png',
+                    tag: 'bemake-notification'
+                });
+            } else if ('Notification' in window && Notification.permission !== 'denied') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        new Notification(title, {
+                            body: body,
+                            icon: '/icon.png'
+                        });
+                    }
+                });
+            }
+        }
+
+        // Solicitar permissão de notificação
+        if ('Notification' in window) {
+            Notification.requestPermission();
+        }
+
+        // Simular nova notificação
+        setTimeout(() => {
+            notificationBadge.style.display = 'flex';
+            showToast('Nova atualização disponível!', 'success');
+        }, 3000);
+
+        notificationsBtn.addEventListener('click', () => {
+            showNotification('BE MAKE - Novidades', 'Confira as novas funcionalidades disponíveis!');
+            notificationBadge.style.display = 'none';
+            trackEvent('Notifications', 'Open Notifications', 'click');
+        });
+
+        // Gestos Touch para Mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchEndX - touchStartX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe direito - próximo card
+                    trackEvent('Gesture', 'Swipe', 'right');
+                } else {
+                    // Swipe esquerdo - card anterior
+                    trackEvent('Gesture', 'Swipe', 'left');
+                }
+            }
+        }
+
+        // Track inicial
+        trackEvent('Page', 'Load', 'Home');
+
+        // Elementos dos modais principais
+        const modalLivro = document.getElementById('modal-livro');
+        const modalVale = document.getElementById('modal-vale');
+        const modalCompras = document.getElementById('modal-compras');
+        const closeBtns = document.querySelectorAll('.close-btn');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        
+        // Botões que abrem os modais principais
+        document.getElementById('como-usar-livro').addEventListener('click', () => {
+            modalLivro.style.display = 'flex';
+            trackEvent('Modal', 'Open', 'Livro Caixa Help');
+        });
+        
+        document.getElementById('como-usar-vale').addEventListener('click', () => {
+            modalVale.style.display = 'flex';
+            trackEvent('Modal', 'Open', 'Vale Help');
+        });
+
+        document.getElementById('como-usar-compras').addEventListener('click', () => {
+            modalCompras.style.display = 'flex';
+            trackEvent('Modal', 'Open', 'Compras Help');
+        });
+        
+        // Fechar modais principais
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                modalLivro.style.display = 'none';
+                modalVale.style.display = 'none';
+                modalCompras.style.display = 'none';
+            });
+        });
+        
+        // Fechar modal ao clicar fora
+        window.addEventListener('click', (e) => {
+            if (e.target === modalLivro) {
+                modalLivro.style.display = 'none';
+            }
+            if (e.target === modalVale) {
+                modalVale.style.display = 'none';
+            }
+            if (e.target === modalCompras) {
+                modalCompras.style.display = 'none';
+            }
+        });
+
+        // Sistema Administrativo
+        const adminBtn = document.getElementById('adminBtn');
+        const adminLoginModal = document.getElementById('adminLoginModal');
+        const adminPanel = document.getElementById('adminPanel');
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const closeAdminModal = document.getElementById('closeAdminModal');
+
+        // Modal de confirmação
+        const confirmModal = document.getElementById('confirmModal');
+        const confirmMessage = document.getElementById('confirmMessage');
+        const confirmYes = document.getElementById('confirmYes');
+        const confirmNo = document.getElementById('confirmNo');
+
+        // Abrir modal de login
+        adminBtn.addEventListener('click', () => {
+            adminLoginModal.style.display = 'flex';
+            trackEvent('Admin', 'Open Login', 'click');
+        });
+
+        // Fechar modal de login com X
+        closeAdminModal.addEventListener('click', () => {
+            adminLoginModal.style.display = 'none';
+            errorMessage.style.display = 'none';
+            loginForm.reset();
+        });
+
+        // Fechar modal de login ao clicar fora
+        adminLoginModal.addEventListener('click', (e) => {
+            if (e.target === adminLoginModal) {
+                adminLoginModal.style.display = 'none';
+                errorMessage.style.display = 'none';
+                loginForm.reset();
+            }
+        });
+
+        // Processar login
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const login = document.getElementById('login').value;
+            const senha = document.getElementById('senha').value;
+
+            if (validUsers[login] && validUsers[login] === senha) {
+                // Login bem-sucedido
+                adminLoginModal.style.display = 'none';
+                adminPanel.style.display = 'block';
+                errorMessage.style.display = 'none';
+                loginForm.reset();
+                trackEvent('Admin', 'Login Success', login);
+                showToast(`Bem-vindo, ${login}!`, 'success');
+            } else {
+                // Login falhou
+                errorMessage.style.display = 'block';
+                trackEvent('Admin', 'Login Failed', login);
+            }
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            adminPanel.style.display = 'none';
+            loginForm.reset();
+            trackEvent('Admin', 'Logout', 'click');
+            showToast('Logout realizado com sucesso!', 'info');
+        });
+
+        // Sistema de confirmação para links que precisam
+        function showConfirmation(message, url) {
+            confirmMessage.textContent = `Certeza que deseja abrir "${message}"?`;
+            
+            confirmYes.onclick = function() {
+                loadingSpinner.style.display = 'block';
+                setTimeout(() => {
+                    window.open(url, '_blank');
+                    loadingSpinner.style.display = 'none';
+                    trackEvent('Navigation', 'Open External', message);
+                }, 500);
+                confirmModal.style.display = 'none';
+            };
+
+            confirmNo.onclick = function() {
+                confirmModal.style.display = 'none';
+            };
+
+            confirmModal.style.display = 'flex';
+        }
+
+        // Fechar modal de confirmação ao clicar fora
+        confirmModal.addEventListener('click', (e) => {
+            if (e.target === confirmModal) {
+                confirmModal.style.display = 'none';
+            }
+        });
+
+        // Botões do painel administrativo - COM CONFIRMAÇÃO
+        document.getElementById('adminLivroCaixa').addEventListener('click', () => {
+            showConfirmation('Livro Caixa - Planilha', 'https://docs.google.com/spreadsheets/d/1SWrEtYMN89mGwywxD00ztzW1vKZD5ndAyqYiu0X4WU4/edit?gid=0#gid=0');
+        });
+
+        document.getElementById('adminVale').addEventListener('click', () => {
+            showConfirmation('Vale - Planilha', 'https://docs.google.com/spreadsheets/d/1EeEeIKydYmXqhJfPgeNGdbAWU6bysnxrWK8tXmUlRXM/edit?gid=0#gid=0');
+        });
+
+        document.getElementById('adminCompras').addEventListener('click', () => {
+            showConfirmation('Compras - Planilha', 'https://docs.google.com/spreadsheets/d/1HYiBtyLn-Gb-w2Ur5aWRL5RrCAA-fC01MZ7pcDcH-EI/edit?gid=0#gid=0');
+        });
+
+        // Track clicks nos links principais
+        document.getElementById('livro-caixa-link').addEventListener('click', () => {
+            trackEvent('Navigation', 'Open App', 'Livro Caixa');
+        });
+
+        document.getElementById('vale-link').addEventListener('click', () => {
+            trackEvent('Navigation', 'Open App', 'Vale');
+        });
+
+        document.getElementById('compras-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            trackEvent('Navigation', 'Open App', 'Compras - Coming Soon');
+            showToast('Sistema de Compras em desenvolvimento!', 'warning');
+        });
+
+        // Fechar com tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                modalLivro.style.display = 'none';
+                modalVale.style.display = 'none';
+                modalCompras.style.display = 'none';
+                adminLoginModal.style.display = 'none';
+                adminPanel.style.display = 'none';
+                confirmModal.style.display = 'none';
+                errorMessage.style.display = 'none';
+            }
+        });
+
+        // Efeito de digitação no título
+        const title = document.querySelector('h1');
+        const originalText = title.textContent;
+        title.textContent = '';
+        let i = 0;
+        
+        function typeWriter() {
+            if (i < originalText.length) {
+                title.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
+        }
+        
+        // Iniciar efeito de digitação após carregamento
+        window.addEventListener('load', () => {
+            setTimeout(typeWriter, 500);
+            
+            // Mostrar mensagem de boas-vindas
+            setTimeout(() => {
+                showToast('Bem-vindo ao BE MAKE Links! 🚀', 'success');
+            }, 1000);
+        });
+
+        // Atalhos de teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey) {
+                switch(e.key) {
+                    case '1':
+                        e.preventDefault();
+                        document.getElementById('livro-caixa-link').click();
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        document.getElementById('vale-link').click();
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        document.getElementById('compras-link').click();
+                        break;
+                    case 'a':
+                        e.preventDefault();
+                        adminBtn.click();
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

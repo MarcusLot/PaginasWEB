@@ -864,7 +864,7 @@
                         <h2 class="card-title">LIVRO CAIXA</h2>
                     </div>
                     <div class="card-buttons">
-                        <a href="https://script.google.com/macros/s/AKfycbxagRW3Mfv1GTSrllXGCHb4YpSZcOMqM55QWnAZtCWOZPig-tnCg-0dA5iGzuOf6zk2gw/exec" class="btn btn-primary" id="livro-caixa-link" target="_blank">
+                        <a href="https://script.google.com/macros/s/AKfycbxRAzmxRph_9_oyxl37YsYSeoX6s9QokCHqNuDPbx7koxxuZkU95T1R-Dt_qs3WDTpzSQ/exec" class="btn btn-primary" id="livro-caixa-link" target="_blank">
                             <span>Acessar Livro Caixa</span>
                         </a>
                         <button class="btn btn-secondary" id="como-usar-livro">
@@ -1136,6 +1136,65 @@
         </div>
     </div>
     
+    <!-- Modal de Novidades -->
+    <div class="modal" id="novelties-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🔔 Novidades e Atualizações</h3>
+                <button class="close-btn" onclick="document.getElementById('novelties-modal').style.display='none'">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>🎉 Confira as últimas melhorias do sistema BE MAKE!</strong></p>
+                
+                <div class="step-box" style="background: #fff3cd; border-left-color: #ffc107;">
+                    <h3>✨ Campo de Observações no Formulário</h3>
+                    <p>Agora você pode adicionar observações personalizadas ao preencher o Livro Caixa! Isso ajuda a registrar informações importantes como:</p>
+                    <ul>
+                        <li>📝 Detalhes sobre vendas especiais</li>
+                        <li>💰 Observações sobre valores diferenciados</li>
+                        <li>🗒️ Notas sobre o movimento do dia</li>
+                        <li>📋 Informações adicionais para o financeiro</li>
+                    </ul>
+                </div>
+
+                <div class="step-box" style="background: #d4edda; border-left-color: #28a745;">
+                    <h3>📄 Campo de Observações no PDF</h3>
+                    <p>As observações que você inserir no formulário agora aparecem automaticamente no PDF gerado! Mantenha todo o histórico organizado e profissional.</p>
+                </div>
+
+                <div class="step-box" style="background: #d1ecf1; border-left-color: #17a2b8;">
+                    <h3>🕐 Data com Timezone GMT-3 (Brasil)</h3>
+                    <p>A data e hora agora são registradas automaticamente no horário oficial do Brasil (GMT-3). Não importa onde você esteja, o sistema sempre mostrará a hora certa!</p>
+                </div>
+
+                <div class="step-box" style="background: #f8d7da; border-left-color: #dc3545;">
+                    <h3>🔗 Novo Link do Livro Caixa</h3>
+                    <p>O sistema foi atualizado com o novo link do Livro Caixa para melhor desempenho e estabilidade.</p>
+                </div>
+
+                <div class="step-box" style="background: #e8f5e8; border-left-color: #4CAF50;">
+                    <h3>🎯 Benefícios das Atualizações:</h3>
+                    <ul>
+                        <li>✅ <strong>Mais organização</strong> - Campos de observações para detalhar operações</li>
+                        <li>✅ <strong>PDF completo</strong> - Todas as informações em um só documento</li>
+                        <li>✅ <strong>Hora precisa</strong> - Timezone brasileiro para evitar confusões</li>
+                        <li>✅ <strong>Melhor performance</strong> - Sistema otimizado e mais rápido</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem; padding: 1rem; background: linear-gradient(135deg, var(--brown), var(--dark-brown)); border-radius: 10px; color: white;">
+                    <h4>🚀 Aproveite essas melhorias!</h4>
+                    <p>Seu Livro Caixa ficou ainda mais profissional e completo.</p>
+                </div>
+
+                <p style="margin-top: 1rem; font-size: 0.9rem; text-align: center; color: var(--brown);">
+                    💡 <strong>Dica:</strong> Sempre que houver novidades, o ícone de sino (🔔) ficará destacado!<br>
+                    Criado por Marcus Lot - Be Make
+                </p>
+            </div>
+        </div>
+    </div>
+    
     <script>
         // Service Worker Registration
         if ('serviceWorker' in navigator) {
@@ -1232,23 +1291,9 @@
             }, 5000);
         }
 
-        function showNotification(title, body) {
-            if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification(title, {
-                    body: body,
-                    icon: '/icon.png',
-                    tag: 'bemake-notification'
-                });
-            } else if ('Notification' in window && Notification.permission !== 'denied') {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        new Notification(title, {
-                            body: body,
-                            icon: '/icon.png'
-                        });
-                    }
-                });
-            }
+        function showNoveltiesModal() {
+            const noveltiesModal = document.getElementById('novelties-modal');
+            noveltiesModal.style.display = 'flex';
         }
 
         // Solicitar permissão de notificação
@@ -1263,9 +1308,9 @@
         }, 3000);
 
         notificationsBtn.addEventListener('click', () => {
-            showNotification('BE MAKE - Novidades', 'Confira as novas funcionalidades disponíveis!');
+            showNoveltiesModal();
             notificationBadge.style.display = 'none';
-            trackEvent('Notifications', 'Open Notifications', 'click');
+            trackEvent('Notifications', 'Open Novelties', 'click');
         });
 
         // Gestos Touch para Mobile
@@ -1303,6 +1348,7 @@
         const modalLivro = document.getElementById('modal-livro');
         const modalVale = document.getElementById('modal-vale');
         const modalCompras = document.getElementById('modal-compras');
+        const noveltiesModal = document.getElementById('novelties-modal');
         const closeBtns = document.querySelectorAll('.close-btn');
         const loadingSpinner = document.getElementById('loadingSpinner');
         
@@ -1341,6 +1387,9 @@
             }
             if (e.target === modalCompras) {
                 modalCompras.style.display = 'none';
+            }
+            if (e.target === noveltiesModal) {
+                noveltiesModal.style.display = 'none';
             }
         });
 
@@ -1473,6 +1522,7 @@
                 modalLivro.style.display = 'none';
                 modalVale.style.display = 'none';
                 modalCompras.style.display = 'none';
+                noveltiesModal.style.display = 'none';
                 adminLoginModal.style.display = 'none';
                 adminPanel.style.display = 'none';
                 confirmModal.style.display = 'none';

@@ -892,16 +892,33 @@
 
                 <!-- Card de COMPRAS -->
                 <div class="card" data-search="compras fornecedor pedido produto">
-                    <div class="status-indicator status-maintenance" title="Em Desenvolvimento"></div>
+                    <div class="status-indicator status-online" title="Sistema Online"></div>
                     <div class="card-header">
                         <span class="card-icon">🛒</span>
                         <h2 class="card-title">COMPRAS</h2>
                     </div>
                     <div class="card-buttons">
-                        <a href="#" class="btn btn-primary" id="compras-link">
+                        <a href="https://script.google.com/macros/s/AKfycbz3I9s0DgJKynBINdI5jnUESHp-5HjzLoaTzA7d3210lCEsVSuctJe4xvTS334g3R-A/exec" class="btn btn-primary" id="compras-link" target="_blank">
                             <span>Acessar Compras</span>
                         </a>
                         <button class="btn btn-secondary" id="como-usar-compras">
+                            <span>Como Usar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card de EM BREVE -->
+                <div class="card" data-search="em breve novidades futuro">
+                    <div class="status-indicator status-maintenance" title="Em Breve"></div>
+                    <div class="card-header">
+                        <span class="card-icon">⏳</span>
+                        <h2 class="card-title">EM BREVE</h2>
+                    </div>
+                    <div class="card-buttons">
+                        <a href="#" class="btn btn-primary" id="em-breve-link">
+                            <span>Acessar (Em Breve)</span>
+                        </a>
+                        <button class="btn btn-secondary" id="como-usar-em-breve">
                             <span>Como Usar</span>
                         </button>
                     </div>
@@ -1172,6 +1189,11 @@
                     <p>O sistema foi atualizado com o novo link do Livro Caixa para melhor desempenho e estabilidade.</p>
                 </div>
 
+                <div class="step-box" style="background: #d4edda; border-left-color: #28a745;">
+                    <h3>🛒 Compras Online e Funcionando!</h3>
+                    <p>O sistema de Compras está online e totalmente operacional! Ele vai servir para quando forem fazer o pedido de limpeza todo dia 25, facilitando o controle e organização das compras da loja.</p>
+                </div>
+
                 <div class="step-box" style="background: #e8f5e8; border-left-color: #4CAF50;">
                     <h3>🎯 Benefícios das Atualizações:</h3>
                     <ul>
@@ -1179,6 +1201,7 @@
                         <li>✅ <strong>PDF completo</strong> - Todas as informações em um só documento</li>
                         <li>✅ <strong>Hora precisa</strong> - Timezone brasileiro para evitar confusões</li>
                         <li>✅ <strong>Melhor performance</strong> - Sistema otimizado e mais rápido</li>
+                        <li>✅ <strong>Sistema Compras ativo</strong> - Controle eficiente para pedidos de limpeza no dia 25</li>
                     </ul>
                 </div>
 
@@ -1189,6 +1212,33 @@
 
                 <p style="margin-top: 1rem; font-size: 0.9rem; text-align: center; color: var(--brown);">
                     💡 <strong>Dica:</strong> Sempre que houver novidades, o ícone de sino (🔔) ficará destacado!<br>
+                    Criado por Marcus Lot - Be Make
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para "Como usar o EM BREVE" -->
+    <div class="modal" id="modal-em-breve">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">⏳ Como usar o EM BREVE</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Sistema em desenvolvimento</strong></p>
+                
+                <div class="step-box">
+                    <p>🚧 <em>Este sistema estará disponível em breve! Fique ligado nas novidades.</em></p>
+                    <p>Enquanto isso, se tiver sugestões ou dúvidas:</p>
+                </div>
+
+                <a href="https://wa.me/554391208288?text=Olá! Tenho uma ideia para o próximo sistema da Be Make" class="btn btn-whatsapp" target="_blank">
+                    <span>📱 Falar no WhatsApp</span>
+                </a>
+                
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    Email: financeiro.bemake@gmail.com<br>
                     Criado por Marcus Lot - Be Make
                 </p>
             </div>
@@ -1348,6 +1398,7 @@
         const modalLivro = document.getElementById('modal-livro');
         const modalVale = document.getElementById('modal-vale');
         const modalCompras = document.getElementById('modal-compras');
+        const modalEmBreve = document.getElementById('modal-em-breve');
         const noveltiesModal = document.getElementById('novelties-modal');
         const closeBtns = document.querySelectorAll('.close-btn');
         const loadingSpinner = document.getElementById('loadingSpinner');
@@ -1367,6 +1418,11 @@
             modalCompras.style.display = 'flex';
             trackEvent('Modal', 'Open', 'Compras Help');
         });
+
+        document.getElementById('como-usar-em-breve').addEventListener('click', () => {
+            modalEmBreve.style.display = 'flex';
+            trackEvent('Modal', 'Open', 'Em Breve Help');
+        });
         
         // Fechar modais principais
         closeBtns.forEach(btn => {
@@ -1374,6 +1430,7 @@
                 modalLivro.style.display = 'none';
                 modalVale.style.display = 'none';
                 modalCompras.style.display = 'none';
+                modalEmBreve.style.display = 'none';
             });
         });
         
@@ -1387,6 +1444,9 @@
             }
             if (e.target === modalCompras) {
                 modalCompras.style.display = 'none';
+            }
+            if (e.target === modalEmBreve) {
+                modalEmBreve.style.display = 'none';
             }
             if (e.target === noveltiesModal) {
                 noveltiesModal.style.display = 'none';
@@ -1510,10 +1570,14 @@
             trackEvent('Navigation', 'Open App', 'Vale');
         });
 
-        document.getElementById('compras-link').addEventListener('click', (e) => {
+        document.getElementById('compras-link').addEventListener('click', () => {
+            trackEvent('Navigation', 'Open App', 'Compras');
+        });
+
+        document.getElementById('em-breve-link').addEventListener('click', (e) => {
             e.preventDefault();
-            trackEvent('Navigation', 'Open App', 'Compras - Coming Soon');
-            showToast('Sistema de Compras em desenvolvimento!', 'warning');
+            trackEvent('Navigation', 'Open App', 'Em Breve - Coming Soon');
+            showToast('Este sistema estará disponível em breve!', 'warning');
         });
 
         // Fechar com tecla ESC
@@ -1522,6 +1586,7 @@
                 modalLivro.style.display = 'none';
                 modalVale.style.display = 'none';
                 modalCompras.style.display = 'none';
+                modalEmBreve.style.display = 'none';
                 noveltiesModal.style.display = 'none';
                 adminLoginModal.style.display = 'none';
                 adminPanel.style.display = 'none';

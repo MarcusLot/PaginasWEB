@@ -1006,7 +1006,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">📘 Como usar o Livro Caixa</h3>
-                <button class="close-btn">&times;</button>
+                <button class="close-btn" onclick="document.getElementById('modal-livro').style.display='none'">&times;</button>
             </div>
             <div class="modal-body">
                 <p><strong>Seu caderninho digital para organizar o dinheiro das lojas Be Make! ✨</strong></p>
@@ -1104,7 +1104,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">🎫 Como usar o Vale</h3>
-                <button class="close-btn">&times;</button>
+                <button class="close-btn" onclick="document.getElementById('modal-vale').style.display='none'">&times;</button>
             </div>
             <div class="modal-body">
                 <p><strong>Sistema de controle de vales e adiantamentos</strong></p>
@@ -1131,7 +1131,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">🛒 Como usar o Compras</h3>
-                <button class="close-btn">&times;</button>
+                <button class="close-btn" onclick="document.getElementById('modal-compras').style.display='none'">&times;</button>
             </div>
             <div class="modal-body">
                 <p><strong>Sistema de controle de compras e fornecedores</strong></p>
@@ -1224,29 +1224,65 @@
         </div>
     </div>
     
-    <!-- Modal para "Como usar o EM BREVE" -->
-    <div class="modal" id="modal-em-breve">
+    <!-- Modal para "Como usar a Conferência de Caixa" -->
+    <div class="modal" id="modal-conferencia">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">⏳ Como usar o EM BREVE</h3>
-                <button class="close-btn">&times;</button>
+                <h3 class="modal-title">📋 Como usar a Conferência de Caixa</h3>
+                <button class="close-btn" onclick="document.getElementById('modal-conferencia').style.display='none'">&times;</button>
             </div>
             <div class="modal-body">
-                <p><strong>Sistema em desenvolvimento</strong></p>
+                <p><strong>Sistema para conferir e validar o caixa das lojas Be Make! ✨</strong></p>
                 
                 <div class="step-box">
-                    <p>🚧 <em>Este sistema estará disponível em breve! Fique ligado nas novidades.</em></p>
-                    <p>Enquanto isso, se tiver sugestões ou dúvidas:</p>
+                    <h3>🎯 O que é a Conferência de Caixa?</h3>
+                    <p>Uma ferramenta para validar o status das formas de pagamento no final do dia, calcular ticket médio e gerar relatórios para envio via WhatsApp.</p>
                 </div>
 
-                <a href="https://wa.me/554391208288?text=Olá! Tenho uma ideia para o próximo sistema da Be Make" class="btn btn-whatsapp" target="_blank">
+                <h3>🚀 Como usar - Passo a Passo:</h3>
+                
+                <div class="step-box">
+                    <span class="step-number">1</span>
+                    <strong>Acesse a Conferência de Caixa</strong>
+                    <p>Clique no botão "Acessar Conferência de Caixa" acima</p>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">2</span>
+                    <strong>Preencha a data</strong>
+                    <p>• A data vem preenchida automaticamente com hoje</p>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">3</span>
+                    <strong>Marque as formas de pagamento</strong>
+                    <p>• ✅ Disponível: Forma funcionando normalmente<br>
+                    • ❌ Indisponível: Precisa justificar (Faltando/Sobrando) e valor</p>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">4</span>
+                    <strong>Adicione dados de vendas</strong>
+                    <p>• Número de clientes<br>
+                    • Total vendido (R$)</p>
+                </div>
+
+                <div class="step-box">
+                    <span class="step-number">5</span>
+                    <strong>Envie o relatório</strong>
+                    <p>Clique em "Enviar para WhatsApp" para gerar e enviar o resumo!</p>
+                </div>
+
+                <div class="step-box" style="background: #e8f5e8; border-left-color: #4CAF50;">
+                    <h3>🎉 Pronto!</h3>
+                    <p>Em menos de 2 minutos você tem o caixa conferido e reportado!</p>
+                </div>
+
+                <h3>📞 Precisa de Ajuda?</h3>
+                <p>Se tiver dúvidas:</p>
+                <a href="https://wa.me/554391208288?text=Olá! Preciso de ajuda com a Conferência de Caixa da Be Make" class="btn btn-whatsapp" target="_blank">
                     <span>📱 Falar no WhatsApp</span>
                 </a>
-                
-                <p style="margin-top: 1rem; font-size: 0.9rem;">
-                    Email: financeiro.bemake@gmail.com<br>
-                    Criado por Marcus Lot - Be Make
-                </p>
             </div>
         </div>
     </div>
@@ -1405,6 +1441,7 @@
         const modalVale = document.getElementById('modal-vale');
         const modalCompras = document.getElementById('modal-compras');
         const modalEmBreve = document.getElementById('modal-em-breve');
+        const modalConferencia = document.getElementById('modal-conferencia');
         const noveltiesModal = document.getElementById('novelties-modal');
         const closeBtns = document.querySelectorAll('.close-btn');
         const loadingSpinner = document.getElementById('loadingSpinner');
@@ -1430,6 +1467,11 @@
             trackEvent('Modal', 'Open', 'Em Breve Help');
         });
         
+        document.getElementById('como-usar-conferencia').addEventListener('click', () => {
+            modalConferencia.style.display = 'flex';
+            trackEvent('Modal', 'Open', 'Conferencia Help');
+        });
+        
         // Fechar modais principais
         closeBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -1437,6 +1479,7 @@
                 modalVale.style.display = 'none';
                 modalCompras.style.display = 'none';
                 modalEmBreve.style.display = 'none';
+                modalConferencia.style.display = 'none';
             });
         });
         
@@ -1453,6 +1496,9 @@
             }
             if (e.target === modalEmBreve) {
                 modalEmBreve.style.display = 'none';
+            }
+            if (e.target === modalConferencia) {
+                modalConferencia.style.display = 'none';
             }
             if (e.target === noveltiesModal) {
                 noveltiesModal.style.display = 'none';
@@ -1593,6 +1639,7 @@
                 modalVale.style.display = 'none';
                 modalCompras.style.display = 'none';
                 modalEmBreve.style.display = 'none';
+                modalConferencia.style.display = 'none';
                 noveltiesModal.style.display = 'none';
                 adminLoginModal.style.display = 'none';
                 adminPanel.style.display = 'none';

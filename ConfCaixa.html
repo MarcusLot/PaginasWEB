@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conferência de Caixa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8f5e8 100%);
+            padding: 20px;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            border: 1px solid rgba(37, 211, 102, 0.2);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #25D366;
+            font-size: 28px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(37, 211, 102, 0.3);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        input[type="date"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .payment-method {
+            display: flex;
+            flex-direction: column;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            gap: 15px;
+        }
+        
+        .payment-method input[type="radio"] {
+            transform: scale(1.5);
+            margin: 0;
+        }
+        
+        .payment-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 18px;
+        }
+        
+        .payment-label {
+            flex-grow: 1;
+            margin: 0;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        .justificativa-container {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .justificativa-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .justificativa-valor {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .result {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #25D366;
+        }
+        
+        .result p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+        
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .popup-title {
+            color: #25D366;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .popup-message {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .popup-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .popup-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .popup-btn.ok {
+            background-color: #25D366;
+            color: white;
+        }
+
+        .popup-btn.ok:hover {
+            background-color: #128C7E;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Conferência de Caixa</h1>
+        <p style="text-align: center; color: #666; font-size: 14px; margin-bottom: 10px;">Feito por Marcus LOT</p>
+        
+        <form id="cashForm">
+            <div class="form-group">
+                <label for="date">Data da Conferência:</label>
+                <input type="date" id="date" required readonly>
+            </div>
+            
+            <div class="form-group">
+                <label>Formas de Pagamento Disponíveis:</label>
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <div class="payment-status">
+                            <input type="radio" id="dinheiro-sim" name="dinheiro-status" value="sim" checked>
+                            <label for="dinheiro-sim">✅</label>
+                            <input type="radio" id="dinheiro-nao" name="dinheiro-status" value="nao">
+                            <label for="dinheiro-nao">❌</label>
+                        </div>
+                        <label for="dinheiro-sim" class="payment-label">Dinheiro</label>
+                        <div id="dinheiro-justificativa" class="justificativa-container" style="display: none;">
+                            <div class="justificativa-options">
+                                <input type="radio" id="dinheiro-faltando" name="dinheiro-tipo" value="faltando">
+                                <label for="dinheiro-faltando">Faltando</label>
+                                <input type="radio" id="dinheiro-sobrando" name="dinheiro-tipo" value="sobrando">
+                                <label for="dinheiro-sobrando">Sobrando</label>
+                            </div>
+                            <input type="number" id="dinheiro-valor" class="justificativa-valor" placeholder="Valor (R$)" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <div class="payment-status">
+                            <input type="radio" id="pix-sim" name="pix-status" value="sim" checked>
+                            <label for="pix-sim">✅</label>
+                            <input type="radio" id="pix-nao" name="pix-status" value="nao">
+                            <label for="pix-nao">❌</label>
+                        </div>
+                        <label for="pix-sim" class="payment-label">Pix</label>
+                        <div id="pix-justificativa" class="justificativa-container" style="display: none;">
+                            <div class="justificativa-options">
+                                <input type="radio" id="pix-faltando" name="pix-tipo" value="faltando">
+                                <label for="pix-faltando">Faltando</label>
+                                <input type="radio" id="pix-sobrando" name="pix-tipo" value="sobrando">
+                                <label for="pix-sobrando">Sobrando</label>
+                            </div>
+                            <input type="number" id="pix-valor" class="justificativa-valor" placeholder="Valor (R$)" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <div class="payment-status">
+                            <input type="radio" id="debito-sim" name="debito-status" value="sim" checked>
+                            <label for="debito-sim">✅</label>
+                            <input type="radio" id="debito-nao" name="debito-status" value="nao">
+                            <label for="debito-nao">❌</label>
+                        </div>
+                        <label for="debito-sim" class="payment-label">Débito</label>
+                        <div id="debito-justificativa" class="justificativa-container" style="display: none;">
+                            <div class="justificativa-options">
+                                <input type="radio" id="debito-faltando" name="debito-tipo" value="faltando">
+                                <label for="debito-faltando">Faltando</label>
+                                <input type="radio" id="debito-sobrando" name="debito-tipo" value="sobrando">
+                                <label for="debito-sobrando">Sobrando</label>
+                            </div>
+                            <input type="number" id="debito-valor" class="justificativa-valor" placeholder="Valor (R$)" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <div class="payment-status">
+                            <input type="radio" id="credito-sim" name="credito-status" value="sim" checked>
+                            <label for="credito-sim">✅</label>
+                            <input type="radio" id="credito-nao" name="credito-status" value="nao">
+                            <label for="credito-nao">❌</label>
+                        </div>
+                        <label for="credito-sim" class="payment-label">Crédito</label>
+                        <div id="credito-justificativa" class="justificativa-container" style="display: none;">
+                            <div class="justificativa-options">
+                                <input type="radio" id="credito-faltando" name="credito-tipo" value="faltando">
+                                <label for="credito-faltando">Faltando</label>
+                                <input type="radio" id="credito-sobrando" name="credito-tipo" value="sobrando">
+                                <label for="credito-sobrando">Sobrando</label>
+                            </div>
+                            <input type="number" id="credito-valor" class="justificativa-valor" placeholder="Valor (R$)" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <div class="payment-status">
+                            <input type="radio" id="link-sim" name="link-status" value="sim" checked>
+                            <label for="link-sim">✅</label>
+                            <input type="radio" id="link-nao" name="link-status" value="nao">
+                            <label for="link-nao">❌</label>
+                        </div>
+                        <label for="link-sim" class="payment-label">Link de Pagamento</label>
+                        <div id="link-justificativa" class="justificativa-container" style="display: none;">
+                            <div class="justificativa-options">
+                                <input type="radio" id="link-faltando" name="link-tipo" value="faltando">
+                                <label for="link-faltando">Faltando</label>
+                                <input type="radio" id="link-sobrando" name="link-tipo" value="sobrando">
+                                <label for="link-sobrando">Sobrando</label>
+                            </div>
+                            <input type="number" id="link-valor" class="justificativa-valor" placeholder="Valor (R$)" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="clientes">Número de Clientes:</label>
+                <input type="number" id="clientes" min="0" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="totalVendido">Total Vendido (R$):</label>
+                <input type="number" id="totalVendido" min="0" step="0.01" required>
+            </div>
+            
+            <div class="result">
+                <p>Ticket Médio da Loja: R$ <span id="ticketMedio">0.00</span></p>
+            </div>
+            
+            <button type="button" class="btn" id="sendBtn">Enviar para WhatsApp</button>
+        </form>
+    </div>
+
+    <!-- Pop-up personalizado -->
+    <div id="validationPopup" class="popup-overlay">
+        <div class="popup-content">
+            <div class="popup-title">⚠️ Justificativa Necessária</div>
+            <div class="popup-message" id="popupMessage"></div>
+            <div class="popup-buttons">
+                <button class="popup-btn ok" onclick="fecharPopup()">Entendi</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Definir data atual automaticamente
+        window.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+            
+            // Configurar eventos para campos de justificativa
+            configurarJustificativas();
+        });
+        
+        // Função para configurar eventos das justificativas
+        function configurarJustificativas() {
+            const formasPagamento = ['dinheiro', 'pix', 'debito', 'credito', 'link'];
+
+            formasPagamento.forEach(forma => {
+                const radioNao = document.getElementById(`${forma}-nao`);
+                const containerJustificativa = document.getElementById(`${forma}-justificativa`);
+
+                radioNao.addEventListener('change', function() {
+                    if (this.checked) {
+                        containerJustificativa.style.display = 'block';
+                    }
+                });
+
+                const radioSim = document.getElementById(`${forma}-sim`);
+                radioSim.addEventListener('change', function() {
+                    if (this.checked) {
+                        containerJustificativa.style.display = 'none';
+                        // Limpar valores quando marcar como disponível
+                        const tipoRadio = containerJustificativa.querySelector('input[type="radio"]:checked');
+                        if (tipoRadio) tipoRadio.checked = false;
+                        const valorInput = document.getElementById(`${forma}-valor`);
+                        if (valorInput) valorInput.value = '';
+                    }
+                });
+            });
+        }
+        
+        // Calcular ticket médio automaticamente
+        document.getElementById('totalVendido').addEventListener('input', calcularTicketMedio);
+        document.getElementById('clientes').addEventListener('input', calcularTicketMedio);
+        
+        function calcularTicketMedio() {
+            const totalVendido = parseFloat(document.getElementById('totalVendido').value) || 0;
+            const clientes = parseInt(document.getElementById('clientes').value) || 0;
+            
+            if (clientes > 0) {
+                const ticketMedio = totalVendido / clientes;
+                document.getElementById('ticketMedio').textContent = ticketMedio.toFixed(2);
+            } else {
+                document.getElementById('ticketMedio').textContent = '0.00';
+            }
+        }
+        
+        // Enviar para WhatsApp
+        document.getElementById('sendBtn').addEventListener('click', function() {
+            const date = document.getElementById('date').value;
+            const clientes = document.getElementById('clientes').value;
+            const totalVendido = document.getElementById('totalVendido').value;
+            const ticketMedio = document.getElementById('ticketMedio').textContent;
+            
+            // Formatar a data para o padrão brasileiro
+            const dataObj = new Date(date);
+            const dataFormatada = dataObj.toLocaleDateString('pt-BR');
+            
+            // Validar justificativas para formas indisponíveis
+            const formasPagamento = ['dinheiro', 'pix', 'debito', 'credito', 'link'];
+            let formasInvalidas = [];
+            
+            formasPagamento.forEach(forma => {
+                const radioNao = document.getElementById(`${forma}-nao`);
+                if (radioNao.checked) {
+                    const radioTipo = document.querySelector(`input[name="${forma}-tipo"]:checked`);
+                    const valorInput = document.getElementById(`${forma}-valor`);
+                    
+                    if (!radioTipo || !valorInput || !valorInput.value) {
+                        formasInvalidas.push(forma.charAt(0).toUpperCase() + forma.slice(1));
+                    }
+                }
+            });
+            
+            if (formasInvalidas.length > 0) {
+                mostrarPopup(`Preencha a justificativa para: ${formasInvalidas.join(', ')}`);
+                return;
+            }
+
+            // Coletar todas as formas de pagamento com status e justificativas
+            const metodosFormatados = [];
+
+            formasPagamento.forEach(forma => {
+                const radioSim = document.getElementById(`${forma}-sim`);
+                const radioTipo = document.querySelector(`input[name="${forma}-tipo"]:checked`);
+                const valorInput = document.getElementById(`${forma}-valor`);
+
+                if (radioSim.checked) {
+                    metodosFormatados.push(`[ *✓* ] - ${forma.charAt(0).toUpperCase() + forma.slice(1)}`);
+                } else {
+                    let justificativa = '';
+                    if (radioTipo && valorInput && valorInput.value) {
+                        const tipo = radioTipo.value === 'faltando' ? 'Faltando' : 'Sobrando';
+                        justificativa = `${tipo} R$ ${parseFloat(valorInput.value).toFixed(2)}`;
+                    }
+                    const nomeForma = forma.charAt(0).toUpperCase() + forma.slice(1);
+                    metodosFormatados.push(`[ *✗* ] - ${nomeForma} - ${justificativa || '(Sem justificativa)'}`);
+                }
+            });
+            
+            // Criar mensagem formatada
+            let mensagem = `*CONFERÊNCIA DE CAIXA - ${dataFormatada}*\n`;
+            mensagem += `*[${new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}]*\n\n`;
+
+            mensagem += `*Formas de Pagamento:*\n`;
+            mensagem += `______________________________\n`;
+            mensagem += metodosFormatados.join('\n') + '\n';
+            mensagem += `______________________________\n\n`;
+            mensagem += `*Total Vendido:* R$ ${parseFloat(totalVendido).toFixed(2)}\n`;
+            mensagem += `*Clientes:* ${clientes}\n`;
+            mensagem += `*Ticket Médio da Loja:* R$ ${ticketMedio}`;
+            
+            // Codificar a mensagem para URL
+            const mensagemCodificada = encodeURIComponent(mensagem);
+            
+            // Abrir WhatsApp reutilizando aba existente se possível
+            const whatsappWindow = window.open(`https://wa.me/?text=${mensagemCodificada}`, 'whatsapp_conferencia', 'width=550,height=700');
+            
+            // Se a janela foi bloqueada pelo popup blocker, abrir em nova aba
+            if (!whatsappWindow || whatsappWindow.closed || typeof whatsappWindow.closed == 'undefined') {
+                window.open(`https://wa.me/?text=${mensagemCodificada}`, '_blank');
+            }
+        });
+        
+        // Função para mostrar pop-up de validação
+        function mostrarPopup(mensagem) {
+            document.getElementById('popupMessage').textContent = mensagem;
+            document.getElementById('validationPopup').style.display = 'flex';
+        }
+        
+        // Função para fechar pop-up
+        function fecharPopup() {
+            document.getElementById('validationPopup').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

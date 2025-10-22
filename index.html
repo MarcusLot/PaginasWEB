@@ -922,6 +922,23 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Card de Chamado Manutenção -->
+                <div class="card" data-search="chamado manutenção chamado técnico suporte">
+                    <div class="status-indicator status-online" title="Sistema Online"></div>
+                    <div class="card-header">
+                        <span class="card-icon">🔧</span>
+                        <h2 class="card-title">CHAMADO MANUTENÇÃO</h2>
+                    </div>
+                    <div class="card-buttons">
+                        <button class="btn btn-primary" id="chamado-manutencao-link" disabled>
+                            <span>Em Breve</span>
+                        </button>
+                        <button class="btn btn-secondary" id="como-usar-manutencao">
+                            <span>Como Usar</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </main>
         
@@ -983,6 +1000,9 @@
             </button>
             <button class="admin-btn" id="adminCompras">
                 🛒 Compras - Planilha
+            </button>
+            <button class="admin-btn" id="adminManutencao">
+                🔧 Manutenção - Sistema
             </button>
         </div>
         <button class="btn-logout" id="logoutBtn">Sair</button>
@@ -1286,6 +1306,87 @@
         </div>
     </div>
     
+    <!-- Modal para "Como usar o Chamado Manutenção" -->
+    <div class="modal" id="modal-manutencao">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🔧 Como usar o Chamado Manutenção</h3>
+                <button class="close-btn" onclick="document.getElementById('modal-manutencao').style.display='none'">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Sistema para abertura e acompanhamento de chamados técnicos</strong></p>
+                
+                <div class="step-box">
+                    <p>🚧 <em>Em breve teremos um sistema completo de chamados de manutenção!</em></p>
+                    <p>Este sistema será utilizado para:</p>
+                    <ul>
+                        <li>🔧 <strong>Abrir chamados técnicos</strong> para equipamentos das lojas</li>
+                        <li>📋 <strong>Acompanhar status</strong> dos chamados em andamento</li>
+                        <li>👨‍🔧 <strong>Agendar visitas</strong> de técnicos especializados</li>
+                        <li>📊 <strong>Gerar relatórios</strong> de manutenções realizadas</li>
+                        <li>💰 <strong>Controlar custos</strong> de manutenção por loja</li>
+                    </ul>
+                </div>
+
+                <div class="step-box" style="background: #fff3cd; border-left-color: #ffc107;">
+                    <h3>🔄 Funcionalidades Planejadas:</h3>
+                    <ul>
+                        <li>📝 <strong>Formulário de abertura</strong> com fotos e descrição detalhada</li>
+                        <li>🏷️ <strong>Categorização</strong> por tipo de problema (hardware, software, infraestrutura)</li>
+                        <li>⏱️ <strong>Prazos SLA</strong> para diferentes tipos de chamado</li>
+                        <li>📱 <strong>Notificações</strong> em tempo real sobre andamento</li>
+                        <li>📈 <strong>Dashboard administrativo</strong> com métricas de performance</li>
+                    </ul>
+                </div>
+
+                <div class="step-box" style="background: #d1ecf1; border-left-color: #17a2b8;">
+                    <h3>🎯 Tipos de Chamado:</h3>
+                    <ul>
+                        <li>🖥️ <strong>Computadores e Notebooks</strong> - Problemas de hardware/software</li>
+                        <li>🖨️ <strong>Impressoras e Equipamentos</strong> - Manutenção e suprimentos</li>
+                        <li>🌐 <strong>Rede e Internet</strong> - Conectividade e Wi-Fi</li>
+                        <li>💡 <strong>Infraestrutura</strong> - Elétrica, ar-condicionado, segurança</li>
+                        <li>📱 <strong>Sistemas</strong> - Google Apps Script, sites, aplicativos</li>
+                    </ul>
+                </div>
+
+                <div class="step-box" style="background: #f8d7da; border-left-color: #dc3545;">
+                    <h3>⚡ Prioridades:</h3>
+                    <ul>
+                        <li>🔴 <strong>Crítica</strong> - Sistema parado, loja sem funcionar</li>
+                        <li>🟡 <strong>Alta</strong> - Problema impacta vendas mas loja funciona</li>
+                        <li>🟢 <strong>Normal</strong> - Problema de conveniência, sem impacto nas vendas</li>
+                        <li>🔵 <strong>Baixa</strong> - Melhorias e otimizações</li>
+                    </ul>
+                </div>
+
+                <div class="step-box" style="background: #e8f5e8; border-left-color: #4CAF50;">
+                    <h3>🚀 Em Desenvolvimento!</h3>
+                    <p>Estamos trabalhando para entregar um sistema completo e eficiente para gerenciar todos os chamados de manutenção das lojas Be Make.</p>
+                    <p><strong>Em breve você poderá:</strong></p>
+                    <ul>
+                        <li>✅ Abrir chamados diretamente pelo sistema</li>
+                        <li>✅ Acompanhar o status em tempo real</li>
+                        <li>✅ Receber notificações automáticas</li>
+                        <li>✅ Visualizar histórico completo</li>
+                        <li>✅ Gerar relatórios detalhados</li>
+                    </ul>
+                </div>
+
+                <h3>📞 Precisa de Ajuda?</h3>
+                <p>Se precisar de suporte técnico urgente:</p>
+                <a href="https://wa.me/554391208288?text=Olá! Preciso de ajuda com o sistema de Chamados de Manutenção da Be Make" class="btn btn-whatsapp" target="_blank">
+                    <span>📱 Falar no WhatsApp</span>
+                </a>
+                
+                <p style="margin-top: 1rem; font-size: 0.9rem;">
+                    Email: suporte.bemake@gmail.com<br>
+                    Criado por Marcus Lot - Be Make
+                </p>
+            </div>
+        </div>
+    </div>
+    
     <script>
         // Service Worker Registration
         if ('serviceWorker' in navigator) {
@@ -1456,6 +1557,7 @@
         const modalVale = document.getElementById('modal-vale');
         const modalCompras = document.getElementById('modal-compras');
         const modalConferencia = document.getElementById('modal-conferencia');
+        const modalManutencao = document.getElementById('modal-manutencao');
         const noveltiesModal = document.getElementById('novelties-modal');
         const closeBtns = document.querySelectorAll('.close-btn');
         const loadingSpinner = document.getElementById('loadingSpinner');
@@ -1465,6 +1567,7 @@
         const comoUsarVale = document.getElementById('como-usar-vale');
         const comoUsarCompras = document.getElementById('como-usar-compras');
         const comoUsarConferencia = document.getElementById('como-usar-conferencia');
+        const comoUsarManutencao = document.getElementById('como-usar-manutencao');
 
         if (comoUsarLivro) {
             comoUsarLivro.addEventListener('click', () => {
@@ -1501,6 +1604,15 @@
                 }
             });
         }
+
+        if (comoUsarManutencao) {
+            comoUsarManutencao.addEventListener('click', () => {
+                if (modalManutencao) {
+                    modalManutencao.style.display = 'flex';
+                    trackEvent('Modal', 'Open', 'Manutencao Help');
+                }
+            });
+        }
         
         // Fechar modais principais (com verificação de segurança)
         if (closeBtns.length > 0) {
@@ -1510,6 +1622,7 @@
                     if (modalVale) modalVale.style.display = 'none';
                     if (modalCompras) modalCompras.style.display = 'none';
                     if (modalConferencia) modalConferencia.style.display = 'none';
+                    if (modalManutencao) modalManutencao.style.display = 'none';
                 });
             });
         }
@@ -1527,6 +1640,9 @@
             }
             if (modalConferencia && e.target === modalConferencia) {
                 modalConferencia.style.display = 'none';
+            }
+            if (modalManutencao && e.target === modalManutencao) {
+                modalManutencao.style.display = 'none';
             }
             if (noveltiesModal && e.target === noveltiesModal) {
                 noveltiesModal.style.display = 'none';
@@ -1665,6 +1781,13 @@
             });
         }
 
+        if (adminManutencao && confirmModal && confirmMessage && confirmYes && confirmNo && loadingSpinner) {
+            adminManutencao.addEventListener('click', () => {
+                showToast('Sistema de Manutenção em desenvolvimento!', 'info');
+                trackEvent('Admin', 'Maintenance System', 'Em Breve');
+            });
+        }
+
         // Track clicks nos links principais (com verificação de segurança)
         const livroCaixaLink = document.getElementById('livro-caixa-link');
         const valeLink = document.getElementById('vale-link');
@@ -1702,6 +1825,7 @@
                 if (modalVale) modalVale.style.display = 'none';
                 if (modalCompras) modalCompras.style.display = 'none';
                 if (modalConferencia) modalConferencia.style.display = 'none';
+                if (modalManutencao) modalManutencao.style.display = 'none';
                 if (noveltiesModal) noveltiesModal.style.display = 'none';
                 if (adminLoginModal) adminLoginModal.style.display = 'none';
                 if (adminPanel) adminPanel.style.display = 'none';
@@ -1725,6 +1849,10 @@
                     case '3':
                         e.preventDefault();
                         if (comprasLink) comprasLink.click();
+                        break;
+                    case '4':
+                        e.preventDefault();
+                        if (comoUsarManutencao) comoUsarManutencao.click();
                         break;
                     case 'a':
                         e.preventDefault();

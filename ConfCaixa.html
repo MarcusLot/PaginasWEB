@@ -121,7 +121,15 @@
             margin-top: 20px;
             border-left: 4px solid #25D366;
         }
-        
+
+        .result-blue {
+            background-color: #e6f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #007bff;
+        }
+
         .result p {
             margin: 8px 0;
             font-size: 16px;
@@ -206,8 +214,134 @@
             color: white;
         }
 
-        .popup-btn.ok:hover {
-            background-color: #128C7E;
+        .popup-btn.cancel {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .popup-btn.cancel:hover {
+            background-color: #5a6268;
+        }
+
+        .popup-btn.confirm {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .popup-btn.confirm:hover {
+            background-color: #c82333;
+        }
+
+        .vendedoras-card {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .vendedoras-header {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .btn-add-vendedora {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-add-vendedora:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .vendedoras-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .vendedora-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+        }
+
+        .vendedora-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .vendedora-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: #25D366;
+        }
+
+        .btn-remove-vendedora {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .vendedora-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .vendedora-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .vendedora-field label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .vendedora-field input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-style: italic;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 2px dashed #ddd;
+        }
+
+        .empty-message p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -319,15 +453,27 @@
             </div>
             
             <div class="form-group">
-                <label for="clientes">Número de Clientes:</label>
-                <input type="number" id="clientes" min="0" required>
+                <label>Ticket Vendedoras</label>
+                <div class="vendedoras-card">
+                    <div class="vendedoras-header">
+                        <button type="button" class="btn-add-vendedora" id="addVendedoraBtn">
+                            ➕ Adicionar Vendedora
+                        </button>
+                    </div>
+                    <div id="vendedorasList" class="vendedoras-list">
+                        <div id="emptyVendedorasMessage" class="empty-message">
+                            <p>👤 Nenhuma vendedora adicionada ainda.<br>
+                               Clique em "➕ Adicionar Vendedora" para começar.</p>
+                        </div>
+                        <!-- Vendedoras serão adicionadas dinamicamente aqui -->
+                    </div>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label for="totalVendido">Total Vendido (R$):</label>
-                <input type="number" id="totalVendido" min="0" step="0.01" required>
+
+            <div class="result-blue">
+                <p>Total Vendido: R$ <span id="totalVendido">0.00</span></p>
             </div>
-            
+
             <div class="result">
                 <p>Ticket Médio da Loja: R$ <span id="ticketMedio">0.00</span></p>
             </div>
@@ -336,27 +482,37 @@
         </form>
     </div>
 
-    <!-- Pop-up personalizado -->
-    <div id="validationPopup" class="popup-overlay">
+    <!-- Pop-up de confirmação para remoção -->
+    <div id="confirmRemovePopup" class="popup-overlay">
         <div class="popup-content">
-            <div class="popup-title">⚠️ Justificativa Necessária</div>
-            <div class="popup-message" id="popupMessage"></div>
+            <div class="popup-title">⚠️ Confirmar Remoção</div>
+            <div class="popup-message" id="confirmRemoveMessage">Tem certeza que deseja remover esta vendedora?</div>
             <div class="popup-buttons">
-                <button class="popup-btn ok" onclick="fecharPopup()">Entendi</button>
+                <button class="popup-btn confirm" onclick="confirmarRemocao()">Sim, Remover</button>
+                <button class="popup-btn cancel" onclick="cancelarRemocao()">Cancelar</button>
             </div>
         </div>
     </div>
 
     <script>
+        let vendedoraCounter = 0;
+        let vendedoraToRemove = null;
+
         // Definir data atual automaticamente
         window.addEventListener('DOMContentLoaded', function() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('date').value = today;
-            
+
             // Configurar eventos para campos de justificativa
             configurarJustificativas();
+
+            // Configurar eventos das vendedoras
+            configurarVendedoras();
+
+            // Inicializar verificação do formulário
+            verificarFormularioValido();
         });
-        
+
         // Função para configurar eventos das justificativas
         function configurarJustificativas() {
             const formasPagamento = ['dinheiro', 'pix', 'debito', 'credito', 'link'];
@@ -384,52 +540,193 @@
                 });
             });
         }
-        
-        // Calcular ticket médio automaticamente
-        document.getElementById('totalVendido').addEventListener('input', calcularTicketMedio);
-        document.getElementById('clientes').addEventListener('input', calcularTicketMedio);
-        
-        function calcularTicketMedio() {
-            const totalVendido = parseFloat(document.getElementById('totalVendido').value) || 0;
-            const clientes = parseInt(document.getElementById('clientes').value) || 0;
-            
+
+        // Função para configurar eventos das vendedoras
+        function configurarVendedoras() {
+            document.getElementById('addVendedoraBtn').addEventListener('click', adicionarVendedora);
+        }
+
+        // Função para adicionar uma nova vendedora
+        function adicionarVendedora() {
+            vendedoraCounter++;
+            const vendedorasList = document.getElementById('vendedorasList');
+
+            const vendedoraDiv = document.createElement('div');
+            vendedoraDiv.className = 'vendedora-item';
+            vendedoraDiv.id = `vendedora-${vendedoraCounter}`;
+
+            vendedoraDiv.innerHTML = `
+                <div class="vendedora-header">
+                    <span class="vendedora-title">Vendedora ${vendedoraCounter}</span>
+                    <button type="button" class="btn-remove-vendedora" onclick="removerVendedora(${vendedoraCounter})">
+                        ✕
+                    </button>
+                </div>
+                <div class="vendedora-fields">
+                    <div class="vendedora-field">
+                        <label for="vendedora-nome-${vendedoraCounter}">Nome da Vendedora</label>
+                        <input type="text" id="vendedora-nome-${vendedoraCounter}" placeholder="Nome da vendedora" required>
+                    </div>
+                    <div class="vendedora-field">
+                        <label for="vendedora-total-${vendedoraCounter}">Total Vendido (R$)</label>
+                        <input type="number" id="vendedora-total-${vendedoraCounter}" placeholder="0.00" min="0" step="0.01" required>
+                    </div>
+                    <div class="vendedora-field">
+                        <label for="vendedora-clientes-${vendedoraCounter}">Clientes Atendidos</label>
+                        <input type="number" id="vendedora-clientes-${vendedoraCounter}" placeholder="0" min="0" required>
+                    </div>
+                    <div class="vendedora-field">
+                        <div class="vendedora-ticket">
+                            Ticket: R$ <span id="vendedora-ticket-${vendedoraCounter}">0.00</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            vendedorasList.appendChild(vendedoraDiv);
+
+            // Esconder mensagem de vazio se existia
+            const emptyMessage = document.getElementById('emptyVendedorasMessage');
+            if (emptyMessage) {
+                emptyMessage.style.display = 'none';
+            }
+
+            // Adicionar eventos para calcular automaticamente
+            const totalInput = document.getElementById(`vendedora-total-${vendedoraCounter}`);
+            const clientesInput = document.getElementById(`vendedora-clientes-${vendedoraCounter}`);
+            const nomeInput = document.getElementById(`vendedora-nome-${vendedoraCounter}`);
+
+            totalInput.addEventListener('input', () => calcularTotais());
+            clientesInput.addEventListener('input', () => {
+                calcularTicketIndividual(vendedoraCounter);
+                calcularTotais();
+            });
+            nomeInput.addEventListener('input', () => verificarFormularioValido());
+
+            // Calcular totais imediatamente após adicionar
+            calcularTotais();
+            verificarFormularioValido();
+        }
+
+        // Função para remover uma vendedora (agora mostra confirmação)
+        function removerVendedora(id) {
+            vendedoraToRemove = id;
+            const vendedoraDiv = document.getElementById(`vendedora-${id}`);
+            if (vendedoraDiv) {
+                const nomeInput = document.getElementById(`vendedora-nome-${id}`);
+                const nome = nomeInput ? nomeInput.value : `Vendedora ${id}`;
+                document.getElementById('confirmRemoveMessage').textContent = `Tem certeza que deseja remover "${nome}"?`;
+                document.getElementById('confirmRemovePopup').style.display = 'flex';
+            }
+        }
+
+        // Função para calcular ticket médio individual de uma vendedora
+        function calcularTicketIndividual(id) {
+            const totalInput = document.getElementById(`vendedora-total-${id}`);
+            const clientesInput = document.getElementById(`vendedora-clientes-${id}`);
+            const ticketSpan = document.getElementById(`vendedora-ticket-${id}`);
+
+            const total = parseFloat(totalInput.value) || 0;
+            const clientes = parseInt(clientesInput.value) || 0;
+
             if (clientes > 0) {
-                const ticketMedio = totalVendido / clientes;
-                document.getElementById('ticketMedio').textContent = ticketMedio.toFixed(2);
+                const ticket = total / clientes;
+                ticketSpan.textContent = ticket.toFixed(2);
+            } else {
+                ticketSpan.textContent = '0.00';
+            }
+        }
+
+        // Função para calcular totais de todas as vendedoras
+        function calcularTotais() {
+            let totalGeral = 0;
+            let clientesTotal = 0;
+            let vendedorasAtivas = 0;
+
+            // Calcular totais de todas as vendedoras
+            for (let i = 1; i <= vendedoraCounter; i++) {
+                const vendedoraDiv = document.getElementById(`vendedora-${i}`);
+                if (vendedoraDiv) {
+                    vendedorasAtivas++;
+                    const totalInput = document.getElementById(`vendedora-total-${i}`);
+                    const clientesInput = document.getElementById(`vendedora-clientes-${i}`);
+
+                    const total = parseFloat(totalInput.value) || 0;
+                    const clientes = parseInt(clientesInput.value) || 0;
+
+                    totalGeral += total;
+                    clientesTotal += clientes;
+
+                    // Calcular ticket individual
+                    calcularTicketIndividual(i);
+                }
+            }
+
+            // Gerenciar visibilidade da mensagem vazia
+            const emptyMessage = document.getElementById('emptyVendedorasMessage');
+            if (emptyMessage) {
+                if (vendedorasAtivas === 0) {
+                    emptyMessage.style.display = 'block';
+                } else {
+                    emptyMessage.style.display = 'none';
+                }
+            }
+
+            // Atualizar campos de total
+            document.getElementById('totalVendido').textContent = totalGeral.toFixed(2);
+
+            // Calcular ticket médio da loja
+            if (clientesTotal > 0) {
+                const ticketMedioLoja = totalGeral / clientesTotal;
+                document.getElementById('ticketMedio').textContent = ticketMedioLoja.toFixed(2);
             } else {
                 document.getElementById('ticketMedio').textContent = '0.00';
             }
+
+            // Verificar se o formulário está válido para envio
+            verificarFormularioValido();
         }
-        
+
         // Enviar para WhatsApp
         document.getElementById('sendBtn').addEventListener('click', function() {
+            // Verificação adicional antes do envio (segurança)
+            if (this.disabled) {
+                return;
+            }
+
             const date = document.getElementById('date').value;
-            const clientes = document.getElementById('clientes').value;
-            const totalVendido = document.getElementById('totalVendido').value;
+            const totalVendido = document.getElementById('totalVendido').textContent;
             const ticketMedio = document.getElementById('ticketMedio').textContent;
-            
+
             // Formatar a data para o padrão brasileiro
             const dataObj = new Date(date);
             const dataFormatada = dataObj.toLocaleDateString('pt-BR');
-            
+
             // Validar justificativas para formas indisponíveis
             const formasPagamento = ['dinheiro', 'pix', 'debito', 'credito', 'link'];
             let formasInvalidas = [];
-            
+
             formasPagamento.forEach(forma => {
                 const radioNao = document.getElementById(`${forma}-nao`);
                 if (radioNao.checked) {
                     const radioTipo = document.querySelector(`input[name="${forma}-tipo"]:checked`);
                     const valorInput = document.getElementById(`${forma}-valor`);
-                    
+
                     if (!radioTipo || !valorInput || !valorInput.value) {
                         formasInvalidas.push(forma.charAt(0).toUpperCase() + forma.slice(1));
                     }
                 }
             });
-            
+
+            // Validar se há campos obrigatórios das formas de pagamento não preenchidos
             if (formasInvalidas.length > 0) {
                 mostrarPopup(`Preencha a justificativa para: ${formasInvalidas.join(', ')}`);
+                return;
+            }
+
+            // Verificar se o total vendido é maior que zero
+            if (parseFloat(totalVendido) <= 0) {
+                mostrarPopup('O total vendido deve ser maior que zero.');
                 return;
             }
 
@@ -453,7 +750,26 @@
                     metodosFormatados.push(`[ *✗* ] - ${nomeForma} - ${justificativa || '(Sem justificativa)'}`);
                 }
             });
-            
+
+            // Coletar dados das vendedoras
+            const vendedorasFormatadas = [];
+            for (let i = 1; i <= vendedoraCounter; i++) {
+                const vendedoraDiv = document.getElementById(`vendedora-${i}`);
+                if (vendedoraDiv) {
+                    const nomeInput = document.getElementById(`vendedora-nome-${i}`);
+                    const totalInput = document.getElementById(`vendedora-total-${i}`);
+                    const clientesInput = document.getElementById(`vendedora-clientes-${i}`);
+                    const ticketSpan = document.getElementById(`vendedora-ticket-${i}`);
+
+                    const nome = nomeInput.value;
+                    const total = parseFloat(totalInput.value).toFixed(2);
+                    const clientes = clientesInput.value;
+                    const ticket = ticketSpan.textContent;
+
+                    vendedorasFormatadas.push(`*${nome}* | R$ ${total} | ${clientes} clientes | Ticket: R$ ${ticket}`);
+                }
+            }
+
             // Criar mensagem formatada
             let mensagem = `*CONFERÊNCIA DE CAIXA - ${dataFormatada}*\n`;
             mensagem += `*[${new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}]*\n\n`;
@@ -462,31 +778,80 @@
             mensagem += `______________________________\n`;
             mensagem += metodosFormatados.join('\n') + '\n';
             mensagem += `______________________________\n\n`;
-            mensagem += `*Total Vendido:* R$ ${parseFloat(totalVendido).toFixed(2)}\n`;
-            mensagem += `*Clientes:* ${clientes}\n`;
+
+            mensagem += `*Vendedoras:*\n`;
+            mensagem += `______________________________\n`;
+            mensagem += vendedorasFormatadas.join('\n') + '\n';
+            mensagem += `______________________________\n\n`;
+
+            mensagem += `*Total Vendido:* R$ ${totalVendido}\n`;
             mensagem += `*Ticket Médio da Loja:* R$ ${ticketMedio}`;
-            
+
             // Codificar a mensagem para URL
             const mensagemCodificada = encodeURIComponent(mensagem);
-            
+
             // Abrir WhatsApp reutilizando aba existente se possível
             const whatsappWindow = window.open(`https://wa.me/?text=${mensagemCodificada}`, 'whatsapp_conferencia', 'width=550,height=700');
-            
+
             // Se a janela foi bloqueada pelo popup blocker, abrir em nova aba
             if (!whatsappWindow || whatsappWindow.closed || typeof whatsappWindow.closed == 'undefined') {
                 window.open(`https://wa.me/?text=${mensagemCodificada}`, '_blank');
             }
         });
-        
+
         // Função para mostrar pop-up de validação
         function mostrarPopup(mensagem) {
             document.getElementById('popupMessage').textContent = mensagem;
             document.getElementById('validationPopup').style.display = 'flex';
         }
-        
-        // Função para fechar pop-up
-        function fecharPopup() {
-            document.getElementById('validationPopup').style.display = 'none';
+
+        // Função para confirmar remoção
+        function confirmarRemocao() {
+            if (vendedoraToRemove !== null) {
+                const vendedoraDiv = document.getElementById(`vendedora-${vendedoraToRemove}`);
+                if (vendedoraDiv) {
+                    vendedoraDiv.remove();
+                    calcularTotais();
+                }
+                vendedoraToRemove = null;
+            }
+            document.getElementById('confirmRemovePopup').style.display = 'none';
+            verificarFormularioValido();
+        }
+
+        // Função para verificar se o formulário está válido para envio
+        function verificarFormularioValido() {
+            let vendedorasExistentes = 0;
+            let vendedorasValidas = 0;
+
+            // Verificar se há pelo menos uma vendedora
+            for (let i = 1; i <= vendedoraCounter; i++) {
+                const vendedoraDiv = document.getElementById(`vendedora-${i}`);
+                if (vendedoraDiv) {
+                    vendedorasExistentes++;
+                    const nomeInput = document.getElementById(`vendedora-nome-${i}`);
+                    const totalInput = document.getElementById(`vendedora-total-${i}`);
+                    const clientesInput = document.getElementById(`vendedora-clientes-${i}`);
+
+                    if (nomeInput.value && totalInput.value && clientesInput.value) {
+                        vendedorasValidas++;
+                    }
+                }
+            }
+
+            const sendBtn = document.getElementById('sendBtn');
+            const totalVendido = parseFloat(document.getElementById('totalVendido').textContent) || 0;
+
+            // Verificar se há vendedoras válidas e total maior que zero
+            if (vendedorasExistentes > 0 && vendedorasValidas === vendedorasExistentes && totalVendido > 0) {
+                sendBtn.disabled = false;
+                sendBtn.style.opacity = '1';
+                sendBtn.style.cursor = 'pointer';
+            } else {
+                sendBtn.disabled = true;
+                sendBtn.style.opacity = '0.6';
+                sendBtn.style.cursor = 'not-allowed';
+            }
         }
     </script>
 </body>

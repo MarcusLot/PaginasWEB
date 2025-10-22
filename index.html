@@ -16,7 +16,6 @@
     <!-- Otimização de Carregamento -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap">
     
     <style>
         :root {
@@ -1291,9 +1290,9 @@
         // Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
+                navigator.serviceWorker.register('sw.js')
                     .then(function(registration) {
-                        console.log('ServiceWorker registration successful');
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
                     })
                     .catch(function(error) {
                         console.log('ServiceWorker registration failed: ', error);
@@ -1314,78 +1313,88 @@
             'Marcus': 'Marcus1220'
         };
 
-        // Sistema de Tema
+        // Sistema de Tema (com verificação de segurança)
         const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = themeToggle.querySelector('span:first-child');
-        const themeText = themeToggle.querySelector('span:last-child');
+        if (themeToggle) {
+            const themeIcon = themeToggle.querySelector('span:first-child');
+            const themeText = themeToggle.querySelector('span:last-child');
 
-        // Carregar tema salvo
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        updateThemeButton(savedTheme);
+            // Carregar tema salvo
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
 
-        // Alternar tema
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeButton(newTheme);
-            trackEvent('UI', 'Theme Toggle', newTheme);
-        });
+            // Alternar tema
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
-        function updateThemeButton(theme) {
-            if (theme === 'dark') {
-                themeIcon.textContent = '☀️';
-                themeText.textContent = 'Modo Claro';
-            } else {
-                themeIcon.textContent = '🌙';
-                themeText.textContent = 'Modo Escuro';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeButton(newTheme);
+                trackEvent('UI', 'Theme Toggle', newTheme);
+            });
+
+            function updateThemeButton(theme) {
+                if (theme === 'dark') {
+                    themeIcon.textContent = '☀️';
+                    themeText.textContent = 'Modo Claro';
+                } else {
+                    themeIcon.textContent = '🌙';
+                    themeText.textContent = 'Modo Escuro';
+                }
             }
         }
 
-        // Sistema de Busca
+        // Sistema de Busca (com verificação de segurança)
         const searchInput = document.getElementById('searchInput');
         const cards = document.querySelectorAll('.card');
 
-        searchInput.addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase().trim();
-            
-            cards.forEach(card => {
-                const searchData = card.getAttribute('data-search').toLowerCase();
-                if (searchData.includes(searchTerm) || searchTerm === '') {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
+        if (searchInput && cards.length > 0) {
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase().trim();
+
+                cards.forEach(card => {
+                    const searchData = card.getAttribute('data-search').toLowerCase();
+                    if (searchData.includes(searchTerm) || searchTerm === '') {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                if (searchTerm) {
+                    trackEvent('Search', 'Perform Search', searchTerm);
                 }
             });
+        }
 
-            if (searchTerm) {
-                trackEvent('Search', 'Perform Search', searchTerm);
-            }
-        });
-
-        // Sistema de Notificações
+        // Sistema de Notificações (com verificação de segurança)
         const notificationsBtn = document.getElementById('notificationsBtn');
         const notificationBadge = document.getElementById('notificationBadge');
         const toastContainer = document.getElementById('toastContainer');
 
         function showToast(message, type = 'info') {
+            if (!toastContainer) return;
+
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             toast.textContent = message;
-            
+
             toastContainer.appendChild(toast);
-            
+
             setTimeout(() => {
-                toast.remove();
+                if (toast.parentNode) {
+                    toast.remove();
+                }
             }, 5000);
         }
 
         function showNoveltiesModal() {
             const noveltiesModal = document.getElementById('novelties-modal');
-            noveltiesModal.style.display = 'flex';
+            if (noveltiesModal) {
+                noveltiesModal.style.display = 'flex';
+            }
         }
 
         // Solicitar permissão de notificação
@@ -1395,15 +1404,21 @@
 
         // Simular nova notificação
         setTimeout(() => {
-            notificationBadge.style.display = 'flex';
-            showToast('Nova atualização disponível!', 'success');
+            if (notificationBadge) {
+                notificationBadge.style.display = 'flex';
+                showToast('Nova atualização disponível!', 'success');
+            }
         }, 3000);
 
-        notificationsBtn.addEventListener('click', () => {
-            showNoveltiesModal();
-            notificationBadge.style.display = 'none';
-            trackEvent('Notifications', 'Open Novelties', 'click');
-        });
+        if (notificationsBtn) {
+            notificationsBtn.addEventListener('click', () => {
+                showNoveltiesModal();
+                if (notificationBadge) {
+                    notificationBadge.style.display = 'none';
+                }
+                trackEvent('Notifications', 'Open Novelties', 'click');
+            });
+        }
 
         // Gestos Touch para Mobile
         let touchStartX = 0;
@@ -1440,72 +1455,85 @@
         const modalLivro = document.getElementById('modal-livro');
         const modalVale = document.getElementById('modal-vale');
         const modalCompras = document.getElementById('modal-compras');
-        const modalEmBreve = document.getElementById('modal-em-breve');
         const modalConferencia = document.getElementById('modal-conferencia');
         const noveltiesModal = document.getElementById('novelties-modal');
         const closeBtns = document.querySelectorAll('.close-btn');
         const loadingSpinner = document.getElementById('loadingSpinner');
         
-        // Botões que abrem os modais principais
-        document.getElementById('como-usar-livro').addEventListener('click', () => {
-            modalLivro.style.display = 'flex';
-            trackEvent('Modal', 'Open', 'Livro Caixa Help');
-        });
-        
-        document.getElementById('como-usar-vale').addEventListener('click', () => {
-            modalVale.style.display = 'flex';
-            trackEvent('Modal', 'Open', 'Vale Help');
-        });
+        // Botões que abrem os modais principais (com verificação de segurança)
+        const comoUsarLivro = document.getElementById('como-usar-livro');
+        const comoUsarVale = document.getElementById('como-usar-vale');
+        const comoUsarCompras = document.getElementById('como-usar-compras');
+        const comoUsarConferencia = document.getElementById('como-usar-conferencia');
 
-        document.getElementById('como-usar-compras').addEventListener('click', () => {
-            modalCompras.style.display = 'flex';
-            trackEvent('Modal', 'Open', 'Compras Help');
-        });
-
-        document.getElementById('como-usar-em-breve').addEventListener('click', () => {
-            modalEmBreve.style.display = 'flex';
-            trackEvent('Modal', 'Open', 'Em Breve Help');
-        });
-        
-        document.getElementById('como-usar-conferencia').addEventListener('click', () => {
-            modalConferencia.style.display = 'flex';
-            trackEvent('Modal', 'Open', 'Conferencia Help');
-        });
-        
-        // Fechar modais principais
-        closeBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                modalLivro.style.display = 'none';
-                modalVale.style.display = 'none';
-                modalCompras.style.display = 'none';
-                modalEmBreve.style.display = 'none';
-                modalConferencia.style.display = 'none';
+        if (comoUsarLivro) {
+            comoUsarLivro.addEventListener('click', () => {
+                if (modalLivro) {
+                    modalLivro.style.display = 'flex';
+                    trackEvent('Modal', 'Open', 'Livro Caixa Help');
+                }
             });
-        });
+        }
+
+        if (comoUsarVale) {
+            comoUsarVale.addEventListener('click', () => {
+                if (modalVale) {
+                    modalVale.style.display = 'flex';
+                    trackEvent('Modal', 'Open', 'Vale Help');
+                }
+            });
+        }
+
+        if (comoUsarCompras) {
+            comoUsarCompras.addEventListener('click', () => {
+                if (modalCompras) {
+                    modalCompras.style.display = 'flex';
+                    trackEvent('Modal', 'Open', 'Compras Help');
+                }
+            });
+        }
+
+        if (comoUsarConferencia) {
+            comoUsarConferencia.addEventListener('click', () => {
+                if (modalConferencia) {
+                    modalConferencia.style.display = 'flex';
+                    trackEvent('Modal', 'Open', 'Conferencia Help');
+                }
+            });
+        }
         
-        // Fechar modal ao clicar fora
+        // Fechar modais principais (com verificação de segurança)
+        if (closeBtns.length > 0) {
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (modalLivro) modalLivro.style.display = 'none';
+                    if (modalVale) modalVale.style.display = 'none';
+                    if (modalCompras) modalCompras.style.display = 'none';
+                    if (modalConferencia) modalConferencia.style.display = 'none';
+                });
+            });
+        }
+
+        // Fechar modal ao clicar fora (com verificação de segurança)
         window.addEventListener('click', (e) => {
-            if (e.target === modalLivro) {
+            if (modalLivro && e.target === modalLivro) {
                 modalLivro.style.display = 'none';
             }
-            if (e.target === modalVale) {
+            if (modalVale && e.target === modalVale) {
                 modalVale.style.display = 'none';
             }
-            if (e.target === modalCompras) {
+            if (modalCompras && e.target === modalCompras) {
                 modalCompras.style.display = 'none';
             }
-            if (e.target === modalEmBreve) {
-                modalEmBreve.style.display = 'none';
-            }
-            if (e.target === modalConferencia) {
+            if (modalConferencia && e.target === modalConferencia) {
                 modalConferencia.style.display = 'none';
             }
-            if (e.target === noveltiesModal) {
+            if (noveltiesModal && e.target === noveltiesModal) {
                 noveltiesModal.style.display = 'none';
             }
         });
 
-        // Sistema Administrativo
+        // Sistema Administrativo (com verificação de segurança)
         const adminBtn = document.getElementById('adminBtn');
         const adminLoginModal = document.getElementById('adminLoginModal');
         const adminPanel = document.getElementById('adminPanel');
@@ -1520,62 +1548,74 @@
         const confirmYes = document.getElementById('confirmYes');
         const confirmNo = document.getElementById('confirmNo');
 
-        // Abrir modal de login
-        adminBtn.addEventListener('click', () => {
-            adminLoginModal.style.display = 'flex';
-            trackEvent('Admin', 'Open Login', 'click');
-        });
+        // Abrir modal de login (com verificação de segurança)
+        if (adminBtn && adminLoginModal) {
+            adminBtn.addEventListener('click', () => {
+                adminLoginModal.style.display = 'flex';
+                trackEvent('Admin', 'Open Login', 'click');
+            });
+        }
 
-        // Fechar modal de login com X
-        closeAdminModal.addEventListener('click', () => {
-            adminLoginModal.style.display = 'none';
-            errorMessage.style.display = 'none';
-            loginForm.reset();
-        });
-
-        // Fechar modal de login ao clicar fora
-        adminLoginModal.addEventListener('click', (e) => {
-            if (e.target === adminLoginModal) {
+        // Fechar modal de login com X (com verificação de segurança)
+        if (closeAdminModal && adminLoginModal && errorMessage && loginForm) {
+            closeAdminModal.addEventListener('click', () => {
                 adminLoginModal.style.display = 'none';
                 errorMessage.style.display = 'none';
                 loginForm.reset();
-            }
-        });
+            });
+        }
 
-        // Processar login
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const login = document.getElementById('login').value;
-            const senha = document.getElementById('senha').value;
+        // Fechar modal de login ao clicar fora (com verificação de segurança)
+        if (adminLoginModal) {
+            adminLoginModal.addEventListener('click', (e) => {
+                if (e.target === adminLoginModal) {
+                    adminLoginModal.style.display = 'none';
+                    if (errorMessage) errorMessage.style.display = 'none';
+                    if (loginForm) loginForm.reset();
+                }
+            });
+        }
 
-            if (validUsers[login] && validUsers[login] === senha) {
-                // Login bem-sucedido
-                adminLoginModal.style.display = 'none';
-                adminPanel.style.display = 'block';
-                errorMessage.style.display = 'none';
-                loginForm.reset();
-                trackEvent('Admin', 'Login Success', login);
-                showToast(`Bem-vindo, ${login}!`, 'success');
-            } else {
-                // Login falhou
-                errorMessage.style.display = 'block';
-                trackEvent('Admin', 'Login Failed', login);
-            }
-        });
+        // Processar login (com verificação de segurança)
+        if (loginForm && adminLoginModal && adminPanel && errorMessage) {
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
 
-        // Logout
-        logoutBtn.addEventListener('click', () => {
-            adminPanel.style.display = 'none';
-            loginForm.reset();
-            trackEvent('Admin', 'Logout', 'click');
-            showToast('Logout realizado com sucesso!', 'info');
-        });
+                const login = document.getElementById('login').value;
+                const senha = document.getElementById('senha').value;
 
-        // Sistema de confirmação para links que precisam
+                if (validUsers[login] && validUsers[login] === senha) {
+                    // Login bem-sucedido
+                    adminLoginModal.style.display = 'none';
+                    if (adminPanel) adminPanel.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                    loginForm.reset();
+                    trackEvent('Admin', 'Login Success', login);
+                    showToast(`Bem-vindo, ${login}!`, 'success');
+                } else {
+                    // Login falhou
+                    errorMessage.style.display = 'block';
+                    trackEvent('Admin', 'Login Failed', login);
+                }
+            });
+        }
+
+        // Logout (com verificação de segurança)
+        if (logoutBtn && adminPanel && loginForm) {
+            logoutBtn.addEventListener('click', () => {
+                if (adminPanel) adminPanel.style.display = 'none';
+                if (loginForm) loginForm.reset();
+                trackEvent('Admin', 'Logout', 'click');
+                showToast('Logout realizado com sucesso!', 'info');
+            });
+        }
+
+        // Sistema de confirmação para links que precisam (com verificação de segurança)
         function showConfirmation(message, url) {
+            if (!confirmModal || !confirmMessage || !confirmYes || !confirmNo || !loadingSpinner) return;
+
             confirmMessage.textContent = `Certeza que deseja abrir "${message}"?`;
-            
+
             confirmYes.onclick = function() {
                 loadingSpinner.style.display = 'block';
                 setTimeout(() => {
@@ -1593,108 +1633,132 @@
             confirmModal.style.display = 'flex';
         }
 
-        // Fechar modal de confirmação ao clicar fora
-        confirmModal.addEventListener('click', (e) => {
-            if (e.target === confirmModal) {
-                confirmModal.style.display = 'none';
-            }
-        });
+        // Fechar modal de confirmação ao clicar fora (com verificação de segurança)
+        if (confirmModal) {
+            confirmModal.addEventListener('click', (e) => {
+                if (e.target === confirmModal) {
+                    confirmModal.style.display = 'none';
+                }
+            });
+        }
 
-        // Botões do painel administrativo - COM CONFIRMAÇÃO
-        document.getElementById('adminLivroCaixa').addEventListener('click', () => {
-            showConfirmation('Livro Caixa - Planilha', 'https://docs.google.com/spreadsheets/d/1SWrEtYMN89mGwywxD00ztzW1vKZD5ndAyqYiu0X4WU4/edit?gid=0#gid=0');
-        });
+        // Botões do painel administrativo - COM CONFIRMAÇÃO (com verificação de segurança)
+        const adminLivroCaixa = document.getElementById('adminLivroCaixa');
+        const adminVale = document.getElementById('adminVale');
+        const adminCompras = document.getElementById('adminCompras');
 
-        document.getElementById('adminVale').addEventListener('click', () => {
-            showConfirmation('Vale - Planilha', 'https://docs.google.com/spreadsheets/d/1EeEeIKydYmXqhJfPgeNGdbAWU6bysnxrWK8tXmUlRXM/edit?gid=0#gid=0');
-        });
+        if (adminLivroCaixa && confirmModal && confirmMessage && confirmYes && confirmNo && loadingSpinner) {
+            adminLivroCaixa.addEventListener('click', () => {
+                showConfirmation('Livro Caixa - Planilha', 'https://docs.google.com/spreadsheets/d/1SWrEtYMN89mGwywxD00ztzW1vKZD5ndAyqYiu0X4WU4/edit?gid=0#gid=0');
+            });
+        }
 
-        document.getElementById('adminCompras').addEventListener('click', () => {
-            showConfirmation('Compras - Planilha', 'https://docs.google.com/spreadsheets/d/1HYiBtyLn-Gb-w2Ur5aWRL5RrCAA-fC01MZ7pcDcH-EI/edit?gid=0#gid=0');
-        });
+        if (adminVale && confirmModal && confirmMessage && confirmYes && confirmNo && loadingSpinner) {
+            adminVale.addEventListener('click', () => {
+                showConfirmation('Vale - Planilha', 'https://docs.google.com/spreadsheets/d/1EeEeIKydYmXqhJfPgeNGdbAWU6bysnxrWK8tXmUlRXM/edit?gid=0#gid=0');
+            });
+        }
 
-        // Track clicks nos links principais
-        document.getElementById('livro-caixa-link').addEventListener('click', () => {
-            trackEvent('Navigation', 'Open App', 'Livro Caixa');
-        });
+        if (adminCompras && confirmModal && confirmMessage && confirmYes && confirmNo && loadingSpinner) {
+            adminCompras.addEventListener('click', () => {
+                showConfirmation('Compras - Planilha', 'https://docs.google.com/spreadsheets/d/1HYiBtyLn-Gb-w2Ur5aWRL5RrCAA-fC01MZ7pcDcH-EI/edit?gid=0#gid=0');
+            });
+        }
 
-        document.getElementById('vale-link').addEventListener('click', () => {
-            trackEvent('Navigation', 'Open App', 'Vale');
-        });
+        // Track clicks nos links principais (com verificação de segurança)
+        const livroCaixaLink = document.getElementById('livro-caixa-link');
+        const valeLink = document.getElementById('vale-link');
+        const comprasLink = document.getElementById('compras-link');
+        const conferenciaCaixaLink = document.getElementById('conferencia-caixa-link');
 
-        document.getElementById('compras-link').addEventListener('click', () => {
-            trackEvent('Navigation', 'Open App', 'Compras');
-        });
+        if (livroCaixaLink) {
+            livroCaixaLink.addEventListener('click', () => {
+                trackEvent('Navigation', 'Open App', 'Livro Caixa');
+            });
+        }
 
-        document.getElementById('em-breve-link').addEventListener('click', (e) => {
-            e.preventDefault();
-            trackEvent('Navigation', 'Open App', 'Em Breve - Coming Soon');
-            showToast('Este sistema estará disponível em breve!', 'warning');
-        });
+        if (valeLink) {
+            valeLink.addEventListener('click', () => {
+                trackEvent('Navigation', 'Open App', 'Vale');
+            });
+        }
 
-        // Fechar com tecla ESC
+        if (comprasLink) {
+            comprasLink.addEventListener('click', () => {
+                trackEvent('Navigation', 'Open App', 'Compras');
+            });
+        }
+
+        if (conferenciaCaixaLink) {
+            conferenciaCaixaLink.addEventListener('click', () => {
+                trackEvent('Navigation', 'Open App', 'Conferencia de Caixa');
+            });
+        }
+
+        // Fechar com tecla ESC (com verificação de segurança)
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                modalLivro.style.display = 'none';
-                modalVale.style.display = 'none';
-                modalCompras.style.display = 'none';
-                modalEmBreve.style.display = 'none';
-                modalConferencia.style.display = 'none';
-                noveltiesModal.style.display = 'none';
-                adminLoginModal.style.display = 'none';
-                adminPanel.style.display = 'none';
-                confirmModal.style.display = 'none';
-                errorMessage.style.display = 'none';
+                if (modalLivro) modalLivro.style.display = 'none';
+                if (modalVale) modalVale.style.display = 'none';
+                if (modalCompras) modalCompras.style.display = 'none';
+                if (modalConferencia) modalConferencia.style.display = 'none';
+                if (noveltiesModal) noveltiesModal.style.display = 'none';
+                if (adminLoginModal) adminLoginModal.style.display = 'none';
+                if (adminPanel) adminPanel.style.display = 'none';
+                if (confirmModal) confirmModal.style.display = 'none';
+                if (errorMessage) errorMessage.style.display = 'none';
             }
         });
 
-        // Efeito de digitação no título
-        const title = document.querySelector('h1');
-        const originalText = title.textContent;
-        title.textContent = '';
-        let i = 0;
-        
-        function typeWriter() {
-            if (i < originalText.length) {
-                title.textContent += originalText.charAt(i);
-                i++;
-                setTimeout(typeWriter, 100);
-            }
-        }
-        
-        // Iniciar efeito de digitação após carregamento
-        window.addEventListener('load', () => {
-            setTimeout(typeWriter, 500);
-            
-            // Mostrar mensagem de boas-vindas
-            setTimeout(() => {
-                showToast('Bem-vindo ao BE MAKE Links! 🚀', 'success');
-            }, 1000);
-        });
-
-        // Atalhos de teclado
+        // Atalhos de teclado (com verificação de segurança)
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey) {
                 switch(e.key) {
                     case '1':
                         e.preventDefault();
-                        document.getElementById('livro-caixa-link').click();
+                        if (livroCaixaLink) livroCaixaLink.click();
                         break;
                     case '2':
                         e.preventDefault();
-                        document.getElementById('vale-link').click();
+                        if (valeLink) valeLink.click();
                         break;
                     case '3':
                         e.preventDefault();
-                        document.getElementById('compras-link').click();
+                        if (comprasLink) comprasLink.click();
                         break;
                     case 'a':
                         e.preventDefault();
-                        adminBtn.click();
+                        if (adminBtn) adminBtn.click();
                         break;
                 }
             }
         });
+
+        // Efeito de digitação no título (com verificação de segurança)
+        const title = document.querySelector('h1');
+        if (title) {
+            const originalText = title.textContent;
+            title.textContent = '';
+            let i = 0;
+
+            function typeWriter() {
+                if (i < originalText.length) {
+                    title.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+
+            // Iniciar efeito de digitação após carregamento
+            window.addEventListener('load', () => {
+                setTimeout(typeWriter, 500);
+
+                // Mostrar mensagem de boas-vindas
+                setTimeout(() => {
+                    showToast('Bem-vindo ao BE MAKE Links! 🚀', 'success');
+                }, 1000);
+            });
+        }
     </script>
 </body>
 </html>

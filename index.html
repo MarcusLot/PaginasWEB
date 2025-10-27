@@ -1,562 +1,105 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BE MAKE - LINKS</title>
-    
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <meta name="theme-color" content="#8B7355">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#c46b4e">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="BE MAKE Links">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.svg">
-
-    <!-- CSS Externo -->
+    <meta name="apple-mobile-web-app-title" content="BE MAKE">
+    <meta name="application-name" content="BE MAKE Links">
+    <meta name="msapplication-TileColor" content="#c46b4e">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23c46b4e'/%3E%3Ctext x='50' y='58' font-family='Arial' font-size='32' font-weight='bold' text-anchor='middle' fill='white'%3EL%3C/text%3E%3C/svg%3E">
+    <title>BE MAKE - LINKS</title>
     <link rel="stylesheet" href="styles.css">
-
-    <!-- JavaScript Externo -->
-    <script src="script.js" defer></script>
-
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>BE MAKE - LINKS</h1>
-            <p class="subtitle">feito por Marcus Lot</p>
-            <button class="theme-toggle" id="themeToggle">
-                <span>🌙</span>
-                <span>Modo Escuro</span>
-            </button>
-        </header>
-        
-        <main>
-            <!-- Barra de Busca -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>BE MAKE</h1>
+                <span>LINKS</span>
+            </div>
+            <div class="header-controls">
+                <div class="author">
+                    <span>feito por Marcus Lot</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Barra de Pesquisa -->
             <div class="search-container">
-                <input type="text" class="search-input" id="searchInput" placeholder="🔍 Buscar sistema...">
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" placeholder="Buscar módulos..." class="search-input">
+                    <div class="search-icon">🔍</div>
+                </div>
             </div>
 
-            <div class="cards-container" id="cardsContainer">
-                <!-- Card do Livro Caixa -->
-                <div class="card" data-search="livro caixa financeiro dinheiro caixa vendas">
-                    <div class="status-indicator status-online" title="Sistema Online"></div>
-                    <div class="card-header">
-                        <span class="card-icon">📒</span>
-                        <h2 class="card-title">LIVRO CAIXA</h2>
-                    </div>
-                    <div class="card-buttons">
-                        <a href="https://script.google.com/macros/s/AKfycbxRAzmxRph_9_oyxl37YsYSeoX6s9QokCHqNuDPbx7koxxuZkU95T1R-Dt_qs3WDTpzSQ/exec" class="btn btn-primary" id="livro-caixa-link" target="_blank">
-                            <span>Acessar Livro Caixa</span>
-                        </a>
-                        <button class="btn btn-secondary" id="como-usar-livro">
-                            <span>Como Usar</span>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Card do Vale -->
-                <div class="card" data-search="vale adiantamento funcionário pagamento">
-                    <div class="status-indicator status-online" title="Sistema Online"></div>
-                    <div class="card-header">
-                        <span class="card-icon">🎫</span>
-                        <h2 class="card-title">VALE</h2>
-                    </div>
-                    <div class="card-buttons">
-                        <a href="https://script.google.com/macros/s/AKfycbyc-b0Bwb2iCUBUctM7DLhCij83paVyrA6kEikVQhf1PkCaW88VYinKE7Ge1uQkzDIG/exec" class="btn btn-primary" id="vale-link" target="_blank">
-                            <span>Acessar Vale</span>
-                        </a>
-                        <button class="btn btn-secondary" id="como-usar-vale">
-                            <span>Como Usar</span>
-                        </button>
+            <section class="links-grid">
+                <!-- Livro Caixa -->
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <h2>LIVRO CAIXA</h2>
+                    <div class="card-actions">
+                        <a href="https://script.google.com/macros/s/AKfycbwDgR8WbPceJhq3B_6PPP2nu2Ig89UWtzN3m-bax6nam30U5IF8BrSY6pk8B6eETurz/exec" class="btn btn-primary" id="btn-livro-caixa">Acessar Livro Caixa</a>
+                        <a href="#" class="btn btn-secondary">Como Usar</a>
                     </div>
                 </div>
 
-                <!-- Card de COMPRAS -->
-                <div class="card" data-search="compras fornecedor pedido produto">
-                    <div class="status-indicator status-online" title="Sistema Online"></div>
-                    <div class="card-header">
-                        <span class="card-icon">🛒</span>
-                        <h2 class="card-title">COMPRAS</h2>
-                    </div>
-                    <div class="card-buttons">
-                        <a href="https://script.google.com/macros/s/AKfycbx5tUu-71o2pqW9IitekM4R5FTlFPPhfKTsUhoBvqHdqFfTqDcsh_7SRMImuALt0AKmzw/exec" class="btn btn-primary" id="compras-link" target="_blank">
-                            <span>Acessar Compras</span>
-                        </a>
-                        <button class="btn btn-secondary" id="como-usar-compras">
-                            <span>Como Usar</span>
-                        </button>
+                <!-- Vale -->
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <h2>VALE</h2>
+                    <div class="card-actions">
+                        <a href="https://script.google.com/macros/s/AKfycbwXM1Uqt5OsbsHH_GrlvbGtcuZfo2CrPpTRSiRf-i2udM7aVzHt5C2QMAZL1iCck8yL/exec" class="btn btn-primary" id="btn-vale">Acessar Vale</a>
+                        <a href="#" class="btn btn-secondary">Como Usar</a>
                     </div>
                 </div>
 
-                <!-- Card de Conferência de Caixa -->
-                <div class="card" data-search="conferência caixa financeiro dinheiro vendas">
-                    <div class="status-indicator status-online" title="Sistema Online"></div>
-                    <div class="card-header">
-                        <span class="card-icon">📋</span>
-                        <h2 class="card-title">Conferência de Caixa</h2>
-                    </div>
-                    <div class="card-buttons">
-                        <a href="ConfCaixa.html" class="btn btn-primary" id="conferencia-caixa-link" target="_blank">
-                            <span>Acessar Conferência de Caixa</span>
-                        </a>
-                        <button class="btn btn-secondary" id="como-usar-conferencia">
-                            <span>Como Usar</span>
-                        </button>
+                <!-- Compras -->
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <h2>COMPRAS</h2>
+                    <div class="card-actions">
+                        <a href="https://script.google.com/macros/s/AKfycbx5tUu-71o2pqW9IitekM4R5FTlFPPhfKTsUhoBvqHdqFfTqDcsh_7SRMImuALt0AKmzw/exec" class="btn btn-primary" id="btn-compras">Acessar Compras</a>
+                        <a href="#" class="btn btn-secondary">Como Usar</a>
                     </div>
                 </div>
 
-                <!-- Card de Sistema de Chamados de Manutenção -->
-                <div class="card" data-search="chamado manutenção chamado técnico suporte reparo conserto equipamento defeito problema urgência emergência">
-                    <div class="status-indicator status-online" title="Sistema Online"></div>
-                    <div class="card-header">
-                        <span class="card-icon">🔧</span>
-                        <h2 class="card-title">CHAMADO MANUTENÇÃO</h2>
-                    </div>
-                    <div class="card-buttons">
-                        <a href="https://script.google.com/macros/s/AKfycbzzId3qlU0f50wB53balBiEXI8_tAzgaAD5LDPEt8eJaVuJUyTHFAdK-f33lHIimvid/exec" class="btn btn-primary" id="chamado-manutencao-link" target="_blank" title="Abrir novo chamado de manutenção">
-                            <span>Abrir Chamado</span>
-                        </a>
-                        <a href="VizuChamado.html" class="btn btn-primary" id="visualizar-chamados-link" target="_blank">
-                            <span>Visualizar Chamados</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </main>
-        
-        <footer>
-            <p>BE MAKE - LINKS &copy; 2023</p>
-        </footer>
-    </div>
-
-    <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
-
-    <!-- Loading Spinner -->
-    <div class="loading-spinner" id="loadingSpinner">
-        <div class="spinner"></div>
-    </div>
-
-    <!-- Botão de Notificações -->
-    <button class="notifications-btn" id="notificationsBtn">
-        🔔
-        <div class="notification-badge" id="notificationBadge" style="display: none;">1</div>
-    </button>
-
-    <!-- Botão Flutuante ADM -->
-    <button class="admin-float-btn" id="adminBtn">
-        👤
-    </button>
-
-    <!-- Modal Login ADM -->
-    <div class="admin-modal" id="adminLoginModal">
-        <div class="admin-modal-content">
-            <button class="close-admin-modal" id="closeAdminModal">×</button>
-            <h3>🔐 Área Administrativa</h3>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="login">Login:</label>
-                    <input type="text" id="login" placeholder="Digite seu login" required>
-                </div>
-                <div class="form-group">
-                    <label for="senha">Senha:</label>
-                    <input type="password" id="senha" placeholder="Digite sua senha" required>
-                </div>
-                <button type="submit" class="btn-login">Entrar</button>
-                <div class="error-message" id="errorMessage">
-                    Login ou senha incorretos!
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Painel Administrativo -->
-    <div class="admin-panel" id="adminPanel">
-        <h3>⚙️ Painel Administrativo</h3>
-        <div class="admin-buttons">
-            <button class="admin-btn" id="adminLivroCaixa">
-                📒 Livro Caixa - Planilha
-            </button>
-            <button class="admin-btn" id="adminVale">
-                🎫 Vale - Planilha
-            </button>
-            <button class="admin-btn" id="adminCompras">
-                🛒 Compras - Planilha
-            </button>
-            <button class="admin-btn" id="adminManutencao">
-                🔧 Manutenção - Sistema Ativo
-            </button>
-            <button class="admin-btn" id="adminNotificacoes">
-                🔔 Notificações Push - Sistema Ativo
-            </button>
-        </div>
-        <button class="btn-logout" id="logoutBtn">Sair</button>
-    </div>
-
-    <!-- Modal de Sistema de Notificações Push -->
-    <div class="modal" id="modal-notificacoes">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🔔 Sistema de Notificações Push</h3>
-                <button class="close-btn" onclick="document.getElementById('modal-notificacoes').style.display='none'">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="step-box" style="background: linear-gradient(135deg, #e8f5e8, #d4edda); border-left-color: #28a745; border-left-width: 6px;">
-                    <h3>🔔 Sistema de Notificações Push</h3>
-                    <p><strong>✅ Funcionalidade Ativa:</strong> Receba avisos de atualizações mesmo com o site fechado!</p>
-                </div>
-
-                <div class="info-box">
-                    <h3>📊 Status das Notificações</h3>
-                    <div id="notificationStatus">
-                        <p id="permissionStatus">🔄 Verificando permissão...</p>
-                        <p id="serviceWorkerStatus">🔄 Verificando service worker...</p>
-                        <p id="subscriptionStatus">🔄 Verificando inscrição...</p>
+                <!-- Fiado -->
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <h2>FIADO</h2>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-primary" id="btn-fiado">Acessar Fiado</a>
+                        <a href="#" class="btn btn-secondary">Como Usar</a>
                     </div>
                 </div>
 
-                <div class="info-box">
-                    <h3>🧪 Testar Funcionalidades</h3>
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin: 1rem 0;">
-                        <button onclick="sendTestNotification()" class="btn" style="background: #17a2b8; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer;">
-                            🧪 Testar Notificação
-                        </button>
-                        <button onclick="simulateUpdate()" class="btn" style="background: #ffc107; color: #212529; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; cursor: pointer;">
-                            📡 Simular Atualização
-                        </button>
+                <!-- Conferência de Caixa -->
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <h2>Conferência de Caixa</h2>
+                    <div class="card-actions">
+                        <a href="#" class="btn btn-primary" id="btn-conferencia">Acessar Conferência de Caixa</a>
+                        <a href="#" class="btn btn-secondary">Como Usar</a>
                     </div>
                 </div>
 
-                <div class="info-box">
-                    <h3>💡 Como Funciona</h3>
-                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-                        <li><strong>Service Worker:</strong> Funciona em background mesmo com o site fechado</li>
-                        <li><strong>Push API:</strong> Recebe notificações do servidor</li>
-                        <li><strong>Periodic Check:</strong> Verifica atualizações a cada 30 minutos</li>
-                        <li><strong>Cache Inteligente:</strong> Mantém o sistema funcionando offline</li>
-                    </ul>
-                </div>
-
-                <div class="info-box">
-                    <h3>🔧 Configurações Avançadas</h3>
-                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin: 1rem 0;">
-                        <button onclick="requestNotificationPermission()" class="btn" style="background: #28a745; color: white; padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
-                            🔓 Solicitar Permissão
-                        </button>
-                        <button onclick="checkNotificationStatus()" class="btn" style="background: #6c757d; color: white; padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
-                            🔍 Verificar Status
-                        </button>
-                        <button onclick="unsubscribeFromNotifications()" class="btn" style="background: #dc3545; color: white; padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">
-                            🚫 Desativar
-                        </button>
+                <!-- Chamado Manutenção -->
+                <div class="card">
+                    <div class="card-icon"></div>
+                    <h2>CHAMADO MANUTENÇÃO</h2>
+                    <div class="card-actions">
+                        <a href="https://script.google.com/macros/s/AKfycbzzId3qlU0f50wB53balBiEXI8_tAzgaAD5LDPEt8eJaVuJUyTHFAdK-f33lHIimvid/exec" class="btn btn-primary" id="btn-chamado">Abrir Chamado</a>
+                        <a href="#" class="btn btn-secondary">Visualizar Chamados</a>
                     </div>
                 </div>
-
-                <div class="step-box" style="background: #fff3cd; border-left-color: #ffc107;">
-                    <h3>📱 Compatibilidade</h3>
-                    <p>• ✅ <strong>Chrome/Edge:</strong> Suporte completo</p>
-                    <p>• ✅ <strong>Firefox:</strong> Suporte completo</p>
-                    <p>• ✅ <strong>Safari:</strong> Suporte limitado</p>
-                    <p>• ✅ <strong>Mobile:</strong> Funciona em todos os navegadores modernos</p>
-                </div>
-
-                <div style="text-align: center; margin-top: 2rem; padding: 1rem; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 10px; color: white;">
-                    <p style="margin: 0; font-size: 1.1rem;">🎯 Sistema funcionando perfeitamente!</p>
-                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">Desenvolvido por Marcus Lot - BE MAKE</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="confirm-modal" id="confirmModal">
-        <div class="confirm-modal-content">
-            <h3>Confirmação</h3>
-            <p id="confirmMessage">Certeza que deseja abrir?</p>
-            <div class="confirm-buttons">
-                <button class="btn-confirm btn-confirm-yes" id="confirmYes">Sim</button>
-                <button class="btn-confirm btn-confirm-no" id="confirmNo">Cancelar</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal para "Como usar o Livro Caixa" -->
-    <div class="modal" id="modal-livro">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">📘 Como usar o Livro Caixa</h3>
-                <button class="close-btn" onclick="document.getElementById('modal-livro').style.display='none'">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Seu caderninho digital para organizar o dinheiro das lojas Be Make! ✨</strong></p>
-                
-                <div class="step-box">
-                    <h3>🎯 O que é o Livro Caixa?</h3>
-                    <p>Uma ferramenta SIMPLES para registrar todo o movimento de dinheiro do dia. É como um "caderninho digital" que faz as contas sozinho!</p>
-                </div>
-
-                <h3>⭐ Para que serve?</h3>
-                <ul>
-                    <li>📝 <strong>Registrar entradas e saídas</strong> de dinheiro</li>
-                    <li>🧮 <strong>Calcular totais automaticamente</strong> (cartão, PIX, entregas)</li>
-                    <li>📊 <strong>Gerar relatórios em PDF</strong> profissionais</li>
-                    <li>👥 <strong>Acompanhar desempenho</strong> das vendedoras</li>
-                    <li>💾 <strong>Salvar automaticamente</strong> na nuvem</li>
-                </ul>
-
-                <h3>🚀 Como usar - Passo a Passo Simples:</h3>
-                
-                <div class="step-box">
-                    <span class="step-number">1</span>
-                    <strong>Acesse o Livro Caixa</strong>
-                    <p>Clique no botão "Acessar Livro Caixa" acima</p>
-                </div>
-
-                <div class="step-box">
-                    <span class="step-number">2</span>
-                    <strong>Preencha as informações básicas</strong>
-                    <p>• Data (já vem com hoje)<br>
-                    • Loja (Norte, Centro, etc)<br>
-                    • Seu nome</p>
-                </div>
-
-                <div class="step-box">
-                    <span class="step-number">3</span>
-                    <strong>Registre o dinheiro do caixa</strong>
-                    <p>• Valor inicial em dinheiro<br>
-                    • Valor final em dinheiro<br>
-                    • O sistema calcula a diferença sozinho!</p>
-                </div>
-
-                <div class="step-box">
-                    <span class="step-number">4</span>
-                    <strong>Adicione as vendas</strong>
-                    <p>Preencha quanto entrou por:<br>
-                    💳 Cartão Débito | 💳 Cartão Crédito<br>
-                    📱 PIX | 🔗 Link Pagamento | 🎫 Vale Presente</p>
-                </div>
-
-                <div class="step-box">
-                    <span class="step-number">5</span>
-                    <strong>Movimentações extras (opcional)</strong>
-                    <p>• 🚚 Entregas feitas<br>
-                    • 💸 Retiradas do caixa<br>
-                    • 🛍️ Compras do dia<br>
-                    • 👩‍💼 Tickets das vendedoras</p>
-                </div>
-
-                <div class="step-box">
-                    <span class="step-number">6</span>
-                    <strong>Finalize o dia</strong>
-                    <p>Clique em <strong>"Enviar Livro Caixa"</strong><br>
-                    O sistema gera um PDF automático com todo resumo!</p>
-                </div>
-
-                <h3>💡 Dicas Importantes:</h3>
-                <ul>
-                    <li>✅ <strong>Preencha todo dia</strong> - Não deixe acumular</li>
-                    <li>✅ <strong>Use números com ponto</strong> - Ex: 100.50 (não use vírgula)</li>
-                    <li>✅ <strong>Revise antes de enviar</strong> - Confira se está tudo certo</li>
-                    <li>✅ <strong>Salve o PDF</strong> - É seu comprovante do dia</li>
-                </ul>
-
-                <div class="step-box" style="background: #e8f5e8; border-left-color: #4CAF50;">
-                    <h3>🎉 Pronto!</h3>
-                    <p>Em menos de 5 minutos você tem todo controle do caixa organizado e profissional!</p>
-                </div>
-
-                <h3>📞 Precisa de Ajuda?</h3>
-                <p>Se tiver dúvidas ou problemas:</p>
-                <a href="https://wa.me/554391208288?text=Olá! Preciso de ajuda com o Livro Caixa da Be Make" class="btn btn-whatsapp" target="_blank">
-                    <span>📱 Falar no WhatsApp</span>
-                </a>
-                <p style="margin-top: 1rem; font-size: 0.9rem;">
-                    Email: financeiro.bemake@gmail.com<br>
-                    Criado por Marcus Lot - Be Make
-                </p>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal para "Como usar o Vale" -->
-    <div class="modal" id="modal-vale">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🎫 Como usar o Vale</h3>
-                <button class="close-btn" onclick="document.getElementById('modal-vale').style.display='none'">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Sistema de controle de vales e adiantamentos</strong></p>
-                
-                <div class="step-box">
-                    <p>🚧 <em>Em breve teremos um tutorial completo aqui!</em></p>
-                    <p>Enquanto isso, se precisar de ajuda com o sistema de vales:</p>
-                </div>
-
-                <a href="https://wa.me/554391208288?text=Olá! Preciso de ajuda com o sistema de Vales da Be Make" class="btn btn-whatsapp" target="_blank">
-                    <span>📱 Falar no WhatsApp</span>
-                </a>
-                
-                <p style="margin-top: 1rem; font-size: 0.9rem;">
-                    Email: financeiro.bemake@gmail.com<br>
-                    Criado por Marcus Lot - Be Make
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para "Como usar o Compras" -->
-    <div class="modal" id="modal-compras">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🛒 Como usar o Compras</h3>
-                <button class="close-btn" onclick="document.getElementById('modal-compras').style.display='none'">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Sistema de controle de compras e fornecedores</strong></p>
-                
-                <div class="step-box">
-                    <p>🚧 <em>Em breve teremos um tutorial completo aqui!</em></p>
-                    <p>Enquanto isso, se precisar de ajuda com o sistema de compras:</p>
-                </div>
-
-                <a href="https://wa.me/554391208288?text=Olá! Preciso de ajuda com o sistema de Compras da Be Make" class="btn btn-whatsapp" target="_blank">
-                    <span>📱 Falar no WhatsApp</span>
-                </a>
-                
-                <p style="margin-top: 1rem; font-size: 0.9rem;">
-                    Email: financeiro.bemake@gmail.com<br>
-                    Criado por Marcus Lot - Be Make
-                </p>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal de Novidades -->
-    <div class="modal" id="novelties-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🔔 Novidades e Atualizações</h3>
-                <button class="close-btn" onclick="document.getElementById('novelties-modal').style.display='none'">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p><strong>🎉 Principais Funcionalidades Disponíveis:</strong></p>
-
-                <!-- DESTAQUE: Sistema de Manutenção -->
-                <div class="step-box" style="background: linear-gradient(135deg, #e8f5e8, #d4edda); border-left-color: #28a745; border-left-width: 6px;">
-                    <h3>🔧✨ NOVO! Sistema de Chamados de Manutenção</h3>
-                    <p><strong>✅ Agora totalmente funcional!</strong></p>
-                    <p>• 📝 <strong>Abrir chamados</strong> técnicos para equipamentos das lojas</p>
-                    <p>• 📊 <strong>Visualizar chamados</strong> e acompanhar status</p>
-                    <p>• 🛠️ <strong>Sistema completo</strong> para manutenção das lojas Be Make</p>
-                </div>
-
-                <!-- Outros Sistemas Ativos -->
-                <div class="step-box" style="background: #f8f9fa; border-left-color: #6c757d;">
-                    <h3>📋 Todos os Sistemas Funcionais</h3>
-                    <p>• 📒 <strong>Livro Caixa</strong> - Controle financeiro completo</p>
-                    <p>• 🎫 <strong>Vale</strong> - Sistema de adiantamentos</p>
-                    <p>• 🛒 <strong>Compras</strong> - Controle de fornecedores</p>
-                    <p>• 📊 <strong>Conferência</strong> - Validação de caixa</p>
-                </div>
-
-                <!-- Melhorias Recentes -->
-                <div class="step-box" style="background: #fff3cd; border-left-color: #ffc107;">
-                    <h3>🚀 Melhorias Implementadas</h3>
-                    <p>• 📄 <strong>PDF completo</strong> com todas as informações</p>
-                    <p>• 🕐 <strong>Timezone brasileiro</strong> (GMT-3)</p>
-                    <p>• ⚡ <strong>Performance otimizada</strong> em todos os sistemas</p>
-                    <p>• 🔔 <strong>Sistema de notificações push</strong> - Configure no painel administrativo</p>
-                </div>
-
-                <!-- Feedback em Destaque -->
-                <div class="step-box" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); border-left: 6px solid #ff6b6b; margin: 1.5rem 0;">
-                    <h3 style="color: #d63031; margin-bottom: 1rem;">💬 SEU FEEDBACK É ESSENCIAL!</h3>
-                    <p style="font-size: 1.1em; font-weight: 600; color: #2d3436; margin-bottom: 1rem;">Sua opinião nos ajuda a melhorar continuamente nossos sistemas!</p>
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
-                        <a href="https://wa.me/554391208288?text=Olá! Tenho feedback/sugestões para os sistemas BE MAKE" class="btn btn-whatsapp" target="_blank" style="margin: 0;">
-                            <span>📱 WhatsApp</span>
-                        </a>
-                        <a href="mailto:suporte.bemake@gmail.com?subject=Feedback/Sugestões BE MAKE" class="btn" style="background: #6c5ce7; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; margin: 0;">
-                            <span>✉️ Email</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, var(--brown), var(--dark-brown)); border-radius: 12px; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                    <h3 style="margin: 0 0 0.5rem 0; font-size: 1.3rem;">🎯 Plataforma Completa!</h3>
-                    <p style="margin: 0; font-size: 1rem;">Todos os sistemas funcionando perfeitamente para sua loja Be Make!</p>
-                </div>
-
-                <p style="margin-top: 1.5rem; font-size: 0.9rem; text-align: center; color: var(--brown); font-style: italic;">
-                    💡 <strong>Dica:</strong> Sempre que houver novidades, o ícone de sino (🔔) ficará destacado!<br>
-                    Criado por Marcus Lot - Be Make
-                </p>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal para "Como usar a Conferência de Caixa" -->
-    <div class="modal" id="modal-conferencia">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">📋 Como usar a Conferência de Caixa</h3>
-                <button class="close-btn" onclick="document.getElementById('modal-conferencia').style.display='none'">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Sistema para conferir e validar o caixa das lojas Be Make! ✨</strong></p>
-                
-                <div class="step-box">
-                    <h3>🎯 O que é a Conferência de Caixa?</h3>
-                    <p>Uma ferramenta para validar o status das formas de pagamento no final do dia, calcular ticket médio e gerar relatórios para envio via WhatsApp.</p>
-                </div>
-
-                <h3>🚀 Como usar - Passo a Passo:</h3>
-                
-                <div class="step-box">
-                    <span class="step-number">1</span>
-                    <strong>Acesse a Conferência de Caixa</strong>
-                    <p>Clique no botão "Acessar Conferência de Caixa" acima</p>
-                </div>
-
-                <div class="step-box">
-                    <span class="step-number">2</span>
-                    <strong>Preencha a data</strong>
-                    <p>• A data vem preenchida automaticamente com hoje</p>
-                </div>
-
-                <div class="step-box">
-                    <span class="step-number">3</span>
-                    <strong>Marque as formas de pagamento</strong>
-                    <p>• ✅ Disponível: Forma funcionando normalmente<br>
-                    • ❌ Indisponível: Precisa justificar (Faltando/Sobrando) e valor</p>
-                </div>
-
-                <div class="step-box">
-                    <span class="step-number">4</span>
-                    <strong>Adicione dados de vendas</strong>
-                    <p>• Número de clientes<br>
-                    • Total vendido (R$)</p>
-                </div>
-
-                <div class="step-box">
-                    <span class="step-number">5</span>
-                    <strong>Envie o relatório</strong>
-                    <p>Clique em "Enviar para WhatsApp" para gerar e enviar o resumo!</p>
-                </div>
-
-                <div class="step-box" style="background: #e8f5e8; border-left-color: #4CAF50;">
-                    <h3>🎉 Pronto!</h3>
-                    <p>Em menos de 2 minutos você tem o caixa conferido e reportado!</p>
-                </div>
-
-                <h3>📞 Precisa de Ajuda?</h3>
-                <p>Se tiver dúvidas:</p>
-                <a href="https://wa.me/554391208288?text=Olá! Preciso de ajuda com a Conferência de Caixa da Be Make" class="btn btn-whatsapp" target="_blank">
-                    <span>📱 Falar no WhatsApp</span>
-                </a>
-            </div>
-        </div>
-    </div>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,63 +1,24 @@
 {
-  "name": "BE MAKE Links",
-  "short_name": "BEMake",
-  "description": "Sistema de links para gestão Be Make",
-  "start_url": "/",
+  "name": "BE MAKE - Links",
+  "short_name": "BE MAKE",
+  "description": "Sistema de links BE MAKE para acesso rápido aos módulos",
+  "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#F5E6D3",
-  "theme_color": "#8B7355",
+  "background_color": "#e4d4cc",
+  "theme_color": "#c46b4e",
   "orientation": "portrait-primary",
-  "scope": "/",
-  "lang": "pt-BR",
-  "categories": ["business", "productivity", "utilities"],
-  "screenshots": [
-    {
-      "src": "/icons/icon-512x512.svg",
-      "sizes": "512x512",
-      "type": "image/svg+xml",
-      "form_factor": "wide"
-    }
-  ],
   "icons": [
     {
-      "src": "icons/icon-72x72.svg",
-      "sizes": "72x72",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-96x96.svg",
-      "sizes": "96x96",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-128x128.svg",
-      "sizes": "128x128",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-144x144.svg",
-      "sizes": "144x144",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-152x152.svg",
-      "sizes": "152x152",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-192x192.svg",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23c46b4e'/%3E%3Ctext x='50' y='58' font-family='Arial' font-size='32' font-weight='bold' text-anchor='middle' fill='white'%3EL%3C/text%3E%3C/svg%3E",
       "sizes": "192x192",
       "type": "image/svg+xml"
     },
     {
-      "src": "icons/icon-384x384.svg",
-      "sizes": "384x384",
-      "type": "image/svg+xml"
-    },
-    {
-      "src": "icons/icon-512x512.svg",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23c46b4e'/%3E%3Ctext x='50' y='58' font-family='Arial' font-size='32' font-weight='bold' text-anchor='middle' fill='white'%3EL%3C/text%3E%3C/svg%3E",
       "sizes": "512x512",
       "type": "image/svg+xml"
     }
-  ]
+  ],
+  "categories": ["productivity", "business"],
+  "lang": "pt-BR"
 }

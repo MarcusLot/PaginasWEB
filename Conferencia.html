@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conferência de Caixa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="Conferencia.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Conferência de Caixa</h1>
+            <div class="date-container" id="current-date">
+                <!-- Data será preenchida automaticamente via JavaScript -->
+            </div>
+        </header>
+        
+        <div class="content">
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-credit-card"></i>
+                    Formas de Pagamento
+                </h2>
+                
+                <div id="payment-methods">
+                    <!-- Métodos de pagamento serão gerados via JavaScript -->
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-users"></i>
+                        Vendedoras
+                    </h2>
+                </div>
+                
+                <!-- Botão flutuante de adicionar vendedora -->
+                <button class="floating-add-btn" id="open-seller-modal" title="Adicionar Vendedora">
+                    <i class="fas fa-plus"></i>
+                </button>
+                
+                <div class="sellers-list-container">
+                    <div class="sellers-list-title">
+                        <span><i class="fas fa-list"></i> Vendedoras Cadastradas</span>
+                        <span class="seller-count">0 vendedoras</span>
+                    </div>
+                    <div class="sellers-list-header">
+                        <div>Vendedora</div>
+                        <div>Valor</div>
+                        <div>Clientes</div>
+                        <div>Ticket Médio</div>
+                        <div></div>
+                    </div>
+                    <div class="sellers-list" id="sellers-list">
+                        <!-- Lista de vendedoras será preenchida via JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Resumo da Loja
+                </h2>
+                
+                <div class="summary">
+                    <div class="summary-item">
+                        <div class="summary-label">Total de Vendas</div>
+                        <div class="summary-value" id="total-sales">R$ 0,00</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Ticket Médio</div>
+                        <div class="summary-value" id="average-ticket">R$ 0,00</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-label">Total de Clientes</div>
+                        <div class="summary-value" id="total-clients">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-send" id="send-whatsapp">
+                <i class="fab fa-whatsapp"></i>
+                Enviar para WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal para valor do pagamento -->
+    <div class="modal-overlay" id="value-modal">
+        <div class="modal">
+            <div class="modal-header" id="value-modal-header">Informe o Valor</div>
+            <div class="modal-body">
+                <input type="number" class="modal-input" id="modal-value" placeholder="Valor em R$" step="0.01" min="0">
+                <div class="modal-buttons">
+                    <button class="modal-btn cancel" id="cancel-value">Cancelar</button>
+                    <button class="modal-btn confirm" id="confirm-value">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para status do pagamento -->
+    <div class="modal-overlay" id="status-modal">
+        <div class="modal">
+            <div class="modal-header" id="status-modal-header">Status do Pagamento</div>
+            <div class="modal-body">
+                <p id="status-modal-text">Selecione o status:</p>
+                <div class="option-buttons">
+                    <button class="option-btn" data-status="faltando">Faltando</button>
+                    <button class="option-btn" data-status="sobrando">Sobrando</button>
+                </div>
+                <input type="number" class="modal-input" id="status-value" placeholder="Valor em R$" step="0.01" min="0">
+                <div class="modal-buttons">
+                    <button class="modal-btn cancel" id="cancel-status">Cancelar</button>
+                    <button class="modal-btn confirm" id="confirm-status">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para adicionar vendedora -->
+    <div class="modal-overlay" id="seller-modal">
+        <div class="modal">
+            <div class="modal-header">Adicionar Vendedora</div>
+            <div class="modal-body">
+                <div class="seller-form-container">
+                    <div class="form-group">
+                        <label for="seller-name">Nome da Vendedora</label>
+                        <input type="text" id="seller-name" placeholder="Digite o nome" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="seller-value">Valor (R$)</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <input type="number" id="seller-value" placeholder="0,00" step="0.01" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="seller-clients">Nº de Clientes</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user-friends"></i>
+                            <input type="number" id="seller-clients" placeholder="0" min="0" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="seller-ticket">Ticket Médio</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-calculator"></i>
+                            <input type="number" id="seller-ticket" placeholder="0,00" step="0.01" readonly class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button class="modal-btn cancel" id="cancel-seller">Cancelar</button>
+                    <button class="modal-btn confirm" id="add-seller">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para confirmar remoção de vendedora -->
+    <div class="modal-overlay" id="remove-modal">
+        <div class="modal">
+            <div class="modal-header">Remover Vendedora</div>
+            <div class="modal-body">
+                <p id="remove-modal-text">Tem certeza que deseja remover esta vendedora?</p>
+                <div class="modal-buttons">
+                    <button class="modal-btn cancel" id="cancel-remove">Cancelar</button>
+                    <button class="modal-btn confirm" id="confirm-remove">Remover</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast para notificações -->
+    <div class="toast" id="toast"></div>
+
+    <script src="Conferencia.js"></script>
+</body>
+</html>
